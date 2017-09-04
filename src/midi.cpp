@@ -47,7 +47,6 @@ namespace Midi {
         uint8_t status = midi->RecvData(&bytesRcvd, recvBuf);
 
         if (status != 0) return;
-        Serial.println("received");
         uint8_t* p = recvBuf;
         while (readPtr < MIDI_EVENT_PACKET_SIZE)  {
             if (*p == 0 && *(p + 1) == 0) break; //data end
