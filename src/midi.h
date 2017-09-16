@@ -1,3 +1,6 @@
+#ifndef H_MIDI
+#define H_MIDI
+
 #include <usbh_midi.h>
 #include <usbhub.h>
 
@@ -54,3 +57,5 @@ namespace Midi {
         uint8_t getPort() { return midi->port; }
     };
 }
+
+#endif

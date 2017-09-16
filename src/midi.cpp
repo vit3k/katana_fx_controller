@@ -21,11 +21,9 @@ namespace Midi {
     }
 
     SysExMessage::SysExMessage(uint8_t* rawData, uint8_t size) {
-
-            this->rawData = rawData;
-            this->size = size;
-            Utils::printHex(rawData, size);
-
+        this->rawData = rawData;
+        this->size = size;
+        Utils::printHex(rawData, size);
     }
     Message Message::parse(uint8_t* rawData, uint8_t length) {
         switch( (rawData[0] & 0xF0) >> 4) {
@@ -70,7 +68,6 @@ namespace Midi {
     void Midi::send(Message& msg) {
         midi->SendData(msg.rawData);
         Utils::printHex(msg.rawData, msg.size);
-
     }
 
     uint8_t Midi::getAddress() {
