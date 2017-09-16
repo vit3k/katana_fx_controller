@@ -51,23 +51,16 @@ namespace Midi {
         while (readPtr < MIDI_EVENT_PACKET_SIZE)  {
             if (*p == 0 && *(p + 1) == 0) break; //data end
 
-            MidiSysEx::Status rc = sysExData.set(p);
-            switch (rc) {
-                case MidiSysEx::nonsysex :  //No SysEx message send data to Serial MIDI
-                    p++;
-                    size = midi->lookupMsgSize(*p);
-                    Utils::printHex(p, size);
-                    p += 3;
-                    break;
-                case MidiSysEx::done :      //SysEx end. send data to Serial MIDI
-                    Utils::printHex(sysExData.get(), sysExData.getSize());
-                    /* FALLTHROUGH */
-                case MidiSysEx::overflow :  //SysEx buffer over. ignore and flush buffer.
-                    sysExData.clear();
-                    /* FALLTHROUGH */
-                default:
-                    p += 4;
-                    break;
+            uint8_t outbuf[3];
+            uint8_t rc = midi->extractSysExData(p, outbuf);
+            if ( rc == 0 ) {
+                p++;
+                size = midi->lookupMsgSize(*p);
+                Utils::printHex(p, size);
+                p += 3;
+            }
+            else {
+              p += 4;
             }
             readPtr += 4;
         }
@@ -75,15 +68,8 @@ namespace Midi {
     }
 
     void Midi::send(Message& msg) {
-        //if (msg.getType() == SysEx) {
-
-        //    midi->SendSysEx(msg.rawData, msg.size);
-
-        //}
-        //else {
-            midi->SendData(msg.rawData);
-            Utils::printHex(msg.rawData, msg.size);
-        //}
+        midi->SendData(msg.rawData);
+        Utils::printHex(msg.rawData, msg.size);
 
     }
 

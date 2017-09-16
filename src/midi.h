@@ -41,7 +41,6 @@ namespace Midi {
     class Midi {
         USBH_MIDI_ext* midi;
         USB* usb;
-        MidiSysEx sysExData;
         char* name;
 
     public:

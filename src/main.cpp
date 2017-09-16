@@ -20,15 +20,10 @@ enum EffectGroup {
 
 class EffectType {
 
-}
+};
 class EffectSlot {
 
-}
-class Effect {
-    uint8_t baseAddr;
-    EffectParam* params;
-    uint8_t paramsCount;
-}
+};
 
 class EffectParam {
     String name;
@@ -36,19 +31,22 @@ class EffectParam {
     uint16_t max;
     uint16_t value;
     uint8_t offset;
-}
+};
+class Effect {
+    uint8_t baseAddr;
+    EffectParam* params;
+    uint8_t paramsCount;
+};
+
+
 
 class EffectPanel {
     uint8_t currentPage;
     Effect* effect;
 public:
     void draw(U8G2& lcd);
-}
+};
 
-class Booster : public Effect {
-    BoosterType type;
-
-}
 void setup()
 {
     lcd.begin();
