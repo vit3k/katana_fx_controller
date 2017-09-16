@@ -17,8 +17,7 @@ void Knob::draw(U8G2 &lcd)
     dtostrf(val, 0, 0, buffer);
     int strlen = lcd.getStrWidth(buffer);
     lcd.drawStr(x - strlen/2, y + 16, buffer);
-    char* titleBuffer = title.c_str();
-    strlen = lcd.getStrWidth(titleBuffer);
-    lcd.drawStr(x - strlen/2, y - 10, titleBuffer);
+    strlen = lcd.getStrWidth( title.c_str());
+    lcd.drawStr(x - strlen/2, y - 10,  title.c_str());
     //Serial.println(title);
 }

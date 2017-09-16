@@ -5,7 +5,7 @@
 #include "midi.h"
 #include <Bounce2.h>
 
-U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI lcd(U8G2_R0, 4, 3, 2);
+U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI lcd(U8G2_R0, 49, 48, 47);
 
 USB usb;
 Midi::Midi katana(&usb);
@@ -13,6 +13,42 @@ Midi::Midi katana(&usb);
 Bounce sw1 = Bounce();
 Bounce sw2 = Bounce();
 Bounce sw3 = Bounce();
+
+enum EffectGroup {
+    Booster, Mod, Delay, FX, Reverb, NoiseGate
+};
+
+class EffectType {
+
+}
+class EffectSlot {
+
+}
+class Effect {
+    uint8_t baseAddr;
+    EffectParam* params;
+    uint8_t paramsCount;
+}
+
+class EffectParam {
+    String name;
+    uint16_t min;
+    uint16_t max;
+    uint16_t value;
+    uint8_t offset;
+}
+
+class EffectPanel {
+    uint8_t currentPage;
+    Effect* effect;
+public:
+    void draw(U8G2& lcd);
+}
+
+class Booster : public Effect {
+    BoosterType type;
+
+}
 void setup()
 {
     lcd.begin();
