@@ -17,33 +17,37 @@ public:
     void setValue(int16_t value) { this->value = value; }
 };
 
-class Range {
-public:
-    uint8_t start[4];
-    uint8_t end[4];
-    bool inRange(uint8_t* addr);
-};
-
 class Effect {
 public:
     String name;
     uint8_t typeValue;
     uint8_t* baseAddr;
     uint8_t* lastAddr;
-    EffectParam** params;
+    EffectParam* params;
     uint8_t paramsCount;
-    Effect(String name, uint8_t typeValue, uint8_t baseAddr[4], EffectParam** params, uint8_t paramsCount)
-        : name(name), typeValue(typeValue), baseAddr(baseAddr), params(params), paramsCount(paramsCount) {}
+    Effect(String name, uint8_t typeValue, uint8_t baseAddr[4], EffectParam* params, uint8_t paramsCount)
+        : name(name), typeValue(typeValue), baseAddr(baseAddr), params(params), paramsCount(paramsCount) {
+
+        //uint8_t last = 0;
+        //for()
+    }
 
     Effect() {}
 
     void retrieve() {}
 };
 
-extern uint8_t boosterParamsBaseAddr[4];
-extern EffectParam* boosterParams[5];
+class EffectType {
+public:
+    String name;
+    uint8_t typeValue;
+    EffectType(String name, uint8_t typeValue): name(name), typeValue(typeValue) {}
+};
 
-extern Effect midBoost;//("Mid Boost", 0x00, boosterParamsBaseAddr, boosterParams, 1);
+//extern uint8_t boosterParamsBaseAddr[4];
+//extern EffectParam* boosterParams[5];
+
+/*extern Effect midBoost;//("Mid Boost", 0x00, boosterParamsBaseAddr, boosterParams, 1);
 extern Effect cleanBoost;//("Clean Boost", 0x01, boosterParamsBaseAddr, boosterParams, 1);
 extern Effect trebleBoost; //("Treble Boost", 0x02, boosterParamsBaseAddr, boosterParams, 1);
 extern Effect crunchOD; //("Crunch OD", 0x03, boosterParamsBaseAddr, boosterParams, 1);
@@ -66,27 +70,63 @@ extern Effect fuzz60s; //("'60s Fuzz'", 0x13, boosterParamsBaseAddr, boosterPara
 extern Effect muffFuzz; //("Muff Fuzz", 0x14, boosterParamsBaseAddr, boosterParams, 1);
 
 extern Effect* boosterEffects[20];
+*/
 
 class EffectSlot {
 public:
     String name;
     uint8_t chainValue;
-    Effect** effects;
-    uint8_t effectsCount;
     uint8_t* baseAddr;
-
     bool enabled;
-    uint8_t currentEffectIdx;
+    uint8_t current;
 
-    EffectSlot(String name, uint8_t chainValue, Effect** effects, uint8_t effectsCount, uint8_t baseAddr[4])
-        : name(name), chainValue(chainValue), effects(effects), effectsCount(effectsCount), baseAddr(baseAddr), currentEffectIdx(1) {}
+    EffectSlot(String name, uint8_t chainValue, uint8_t baseAddr[4])
+        : name(name), chainValue(chainValue), baseAddr(baseAddr), current(1) {}
 
-    void retrieve() {}
-    Effect* currentEffect() { return effects[currentEffectIdx]; }
-    void changeEffect(uint8_t effectIdx);// {}
+    virtual void change(uint8_t idx) = 0;
+    virtual void list(String* names, uint8_t &namesCount) = 0;
+    virtual String currentName() = 0;
+    virtual void params(EffectParam* params, uint8_t &paramsCount) = 0;
+    virtual uint8_t paramsCount() = 0;
+    virtual uint8_t effectsCount() = 0;
+
 };
 
-extern uint8_t boosterBaseAddr[4];
-extern EffectSlot booster;
+class SingleEffectSlot : public EffectSlot {
+public:
+    EffectType** types;
+    uint8_t typesCount;
+    EffectParam* _params;
+    uint8_t _paramsCount;
+
+    SingleEffectSlot(String name, uint8_t chainValue, uint8_t baseAddr[4], EffectType** types, uint8_t typesCount, EffectParam* params, uint8_t paramsCount)
+        : EffectSlot(name, chainValue, baseAddr), types(types), typesCount(typesCount), _params(params), _paramsCount(paramsCount) {}
+
+    void change(uint8_t idx);
+    void list(String* names, uint8_t &namesCount);
+    String currentName();
+    void params(EffectParam* params, uint8_t &paramsCount);
+    uint8_t paramsCount();
+    uint8_t effectsCount();
+};
+/*
+class MultipleEffectSlot : public EffectSlot {
+public:
+    Effect** effects;
+    uint8_t effectCount;
+
+    MultipleEffectSlot(String name, uint8_t chainValue, uint8_t baseAddr[4], Effect** effects, uint8_t effectCount)
+        : EffectSlot(name, chainValue, baseAddr), effects(effects), effectCount(effectCount) {}
+
+    void change(uint8_t idx);
+    void list(String* names, uint8_t &namesCount);
+    String currentName();
+    void params(EffectParam* params, uint8_t &paramsCount);
+    uint8_t paramsCount();
+    uint8_t effectsCount();
+};*/
+
+//extern uint8_t boosterBaseAddr[4];
+extern SingleEffectSlot booster;
 
 #endif

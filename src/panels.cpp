@@ -1,12 +1,26 @@
 #include "panels.h"
 
 void EffectPanel::updateKnobs() {
-    knobCount = calculateKnobCount();
-    for(uint8_t i = 0; i < knobCount; i++) {
-        auto param = effectSlot->currentEffect()->params[currentPage * 3 + i];
-        knobs[i].setKnob(param->name, param->value, param->minValue, param->maxValue);
+    //knobCount = calculateKnobCount();
+    EffectParam* params;
+    uint8_t paramsCount;
+    effectSlot->params(params, paramsCount);
+    Serial.println(params[0].name);
+    uint8_t pageCount = ceil( (float)paramsCount / 3.0f);
+    knobCount = 3;
+    if (currentPage == (pageCount - 1)) {
+        knobCount = paramsCount % 3;
+        knobCount = knobCount == 0 ? 3 : knobCount;
     }
+
+    for(uint8_t i = 0; i < knobCount; i++) {
+        EffectParam param = params[currentPage * 3 + i];
+        knobs[i].setKnob(param.name, param.value, param.minValue, param.maxValue);
+
+    }
+    //delete params;
 }
+
 void EffectPanel::show(EffectSlot *effectSlot) {
     this->effectSlot = effectSlot;
     currentPage = 0;
@@ -15,18 +29,13 @@ void EffectPanel::show(EffectSlot *effectSlot) {
 }
 
 uint8_t EffectPanel::calculateKnobCount() {
-    uint8_t pageCount = ceil( (float)effectSlot->currentEffect()->paramsCount / 3.0f);
-    uint8_t knobCount = 3;
-    if (currentPage == (pageCount - 1)) {
-        knobCount = effectSlot->currentEffect()->paramsCount % 3;
-        knobCount = knobCount == 0 ? 3 : knobCount;
-    }
+
     return knobCount;
 }
 
 void EffectPanel::update() {
     if (pageSwitch->fell()) {
-        uint8_t pageCount = ceil( (float)effectSlot->currentEffect()->paramsCount / 3.0f);
+        uint8_t pageCount = ceil( (float)effectSlot->paramsCount() / 3.0f);
         currentPage++;
         if (currentPage >= pageCount) {
             currentPage = 0;
@@ -57,8 +66,8 @@ void EffectPanel::draw(U8G2& lcd) {
 
     strlen = lcd.getStrWidth("Page");
     lcd.drawStr(113 - strlen/2, 62, "Page");
-    strlen = lcd.getStrWidth(effectSlot->currentEffect()->name.c_str());
-    lcd.drawStr(128 - strlen, 6, effectSlot->currentEffect()->name.c_str());
+    strlen = lcd.getStrWidth(effectSlot->currentName().c_str());
+    lcd.drawStr(128 - strlen, 6, effectSlot->currentName().c_str());
 
 
     for(uint8_t i = 0; i < knobCount; i++) {
@@ -68,17 +77,21 @@ void EffectPanel::draw(U8G2& lcd) {
 
 void EffectListPanel::show(EffectSlot* effectSlot) {
     this->effectSlot = effectSlot;
-    firstVisible = effectSlot->currentEffectIdx;
-    if (firstVisible + 6 > effectSlot->effectsCount) {
-        firstVisible = effectSlot->effectsCount - 6;
+    firstVisible = effectSlot->current;
+    if (firstVisible + 6 > effectSlot->effectsCount()) {
+        firstVisible = effectSlot->effectsCount() - 6;
     }
-    current = effectSlot->currentEffectIdx;
+    current = effectSlot->current;
 }
 void EffectListPanel::draw(U8G2& lcd) {
     lcd.setFont(u8g2_font_5x7_tf);
-    uint8_t last = min(firstVisible + 5, effectSlot->effectsCount - 1);
+    String* names;
+    uint8_t namesCount;
+    effectSlot->list(names, namesCount);
+
+    uint8_t last = min(firstVisible + 5, namesCount - 1);
     for(uint8_t i = 0; i < last; i++) {
-        if ((firstVisible + i) != effectSlot->currentEffectIdx) {
+        if ((firstVisible + i) != effectSlot->current) {
             lcd.setDrawColor(1);
         }
         else {
@@ -87,8 +100,10 @@ void EffectListPanel::draw(U8G2& lcd) {
             lcd.setDrawColor(0);
         }
 
-        lcd.drawStr(0, i * 10 + 6, effectSlot->effects[firstVisible + i]->name.c_str());
+        lcd.drawStr(0, i * 10 + 6, names[firstVisible + i].c_str());
     }
+
+    delete names;
 }
 
 void EffectListPanel::update() {
@@ -98,24 +113,24 @@ void EffectListPanel::update() {
     // TODO: fix navigation
     if (nextSwitch->fell()) {
         current++;
-        if (current >= effectSlot->effectsCount) {
+        if (current >= effectSlot->effectsCount()) {
             current = 0;
         }
-        effectSlot->changeEffect(current);
+        effectSlot->change(current);
         if (current - firstVisible >= 6) {
             firstVisible++;
         }
-        if (firstVisible + 6 > effectSlot->effectsCount) {
-            firstVisible = effectSlot->effectsCount - 6;
+        if (firstVisible + 6 > effectSlot->effectsCount()) {
+            firstVisible = effectSlot->effectsCount() - 6;
         }
     }
 
     if (prevSwitch->fell()) {
         current--;
         if (current < 0) {
-            current = effectSlot->effectsCount - 1;
+            current = effectSlot->effectsCount() - 1;
         }
-        effectSlot->changeEffect(current);
+        effectSlot->change(current);
         if (current < firstVisible) {
             firstVisible = current;
         }
