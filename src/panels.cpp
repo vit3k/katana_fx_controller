@@ -3,8 +3,8 @@
 void EffectPanel::updateKnobs() {
     knobCount = calculateKnobCount();
     for(uint8_t i = 0; i < knobCount; i++) {
-        EffectParam param = effectSlot->currentEffect()->params[currentPage * 3 + i];
-        knobs[i].setKnob(param.name, param.value, param.minValue, param.maxValue);
+        auto param = effectSlot->currentEffect()->params[currentPage * 3 + i];
+        knobs[i].setKnob(param->name, param->value, param->minValue, param->maxValue);
     }
 }
 void EffectPanel::show(EffectSlot *effectSlot) {
@@ -87,7 +87,7 @@ void EffectListPanel::draw(U8G2& lcd) {
             lcd.setDrawColor(0);
         }
 
-        lcd.drawStr(0, i * 10 + 6, effectSlot->effects[firstVisible + i].name.c_str());
+        lcd.drawStr(0, i * 10 + 6, effectSlot->effects[firstVisible + i]->name.c_str());
     }
 }
 

@@ -10,11 +10,18 @@ public:
     int16_t maxValue;
     int16_t value = 0;
     uint8_t addrOffset;
-
-    EffectParam(String name, int16_t minValue, int16_t maxValue, uint8_t addrOffset)
-        : name(name), minValue(minValue), maxValue(maxValue), addrOffset(addrOffset) {}
+    uint8_t size;
+    EffectParam(String name, int16_t minValue, int16_t maxValue, uint8_t addrOffset, uint8_t size)
+        : name(name), minValue(minValue), maxValue(maxValue), addrOffset(addrOffset), size(size) {}
 
     void setValue(int16_t value) { this->value = value; }
+};
+
+class Range {
+public:
+    uint8_t start[4];
+    uint8_t end[4];
+    bool inRange(uint8_t* addr);
 };
 
 class Effect {
@@ -22,9 +29,10 @@ public:
     String name;
     uint8_t typeValue;
     uint8_t* baseAddr;
-    EffectParam* params;
+    uint8_t* lastAddr;
+    EffectParam** params;
     uint8_t paramsCount;
-    Effect(String name, uint8_t typeValue, uint8_t baseAddr[4], EffectParam* params, uint8_t paramsCount)
+    Effect(String name, uint8_t typeValue, uint8_t baseAddr[4], EffectParam** params, uint8_t paramsCount)
         : name(name), typeValue(typeValue), baseAddr(baseAddr), params(params), paramsCount(paramsCount) {}
 
     Effect() {}
@@ -33,7 +41,7 @@ public:
 };
 
 extern uint8_t boosterParamsBaseAddr[4];
-extern EffectParam boosterParams[5];
+extern EffectParam* boosterParams[5];
 
 extern Effect midBoost;//("Mid Boost", 0x00, boosterParamsBaseAddr, boosterParams, 1);
 extern Effect cleanBoost;//("Clean Boost", 0x01, boosterParamsBaseAddr, boosterParams, 1);
@@ -57,24 +65,24 @@ extern Effect metalZone; //("Metal Zone", 0x12, boosterParamsBaseAddr, boosterPa
 extern Effect fuzz60s; //("'60s Fuzz'", 0x13, boosterParamsBaseAddr, boosterParams, 1);
 extern Effect muffFuzz; //("Muff Fuzz", 0x14, boosterParamsBaseAddr, boosterParams, 1);
 
-extern Effect boosterEffects[20];
+extern Effect* boosterEffects[20];
 
 class EffectSlot {
 public:
     String name;
     uint8_t chainValue;
-    Effect* effects;
+    Effect** effects;
     uint8_t effectsCount;
     uint8_t* baseAddr;
 
     bool enabled;
     uint8_t currentEffectIdx;
 
-    EffectSlot(String name, uint8_t chainValue, Effect* effects, uint8_t effectsCount, uint8_t baseAddr[4])
+    EffectSlot(String name, uint8_t chainValue, Effect** effects, uint8_t effectsCount, uint8_t baseAddr[4])
         : name(name), chainValue(chainValue), effects(effects), effectsCount(effectsCount), baseAddr(baseAddr), currentEffectIdx(1) {}
 
     void retrieve() {}
-    Effect* currentEffect() { return &effects[currentEffectIdx]; }
+    Effect* currentEffect() { return effects[currentEffectIdx]; }
     void changeEffect(uint8_t effectIdx);// {}
 };
 

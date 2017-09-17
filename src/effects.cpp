@@ -1,12 +1,12 @@
 #include "effects.h"
 
 uint8_t boosterParamsBaseAddr[4] = {0x60, 0x00, 0x00, 0x32};
-EffectParam boosterParams[5] = {
-    EffectParam("Drive", 0, 100, 0x00),
-    EffectParam("Tone", -50, 50, 0x02),
-    EffectParam("Level", 0, 100, 0x05),
-    EffectParam("Bottom", -50, 50, 0x01),
-    EffectParam("Direct Mix", -0, 100, 0x06),
+EffectParam* boosterParams[5] = {
+    new EffectParam("Drive", 0, 100, 0x00, 1),
+    new EffectParam("Tone", -50, 50, 0x02, 1),
+    new EffectParam("Level", 0, 100, 0x05, 1),
+    new EffectParam("Bottom", -50, 50, 0x01, 1),
+    new EffectParam("Direct Mix", -0, 100, 0x06, 1),
 };
 
 Effect midBoost("Mid Boost", 0x00, boosterParamsBaseAddr, boosterParams, 5);
@@ -31,11 +31,18 @@ Effect metalZone("Metal Zone", 0x12, boosterParamsBaseAddr, boosterParams, 5);
 Effect fuzz60s("'60s Fuzz'", 0x13, boosterParamsBaseAddr, boosterParams, 5);
 Effect muffFuzz("Muff Fuzz", 0x14, boosterParamsBaseAddr, boosterParams, 5);
 
-Effect boosterEffects[20] = {midBoost, cleanBoost, trebleBoost, crunchOD, naturalOD, warmOD, fatDS, metalDS, octFuzz, bluesDrive, overdrive,
-                            tScream, turboOD, distortion, rat, guvDS, dstPlus, metalZone, fuzz60s, muffFuzz};
+Effect* boosterEffects[20] = {
+    &midBoost, &cleanBoost, &trebleBoost, &crunchOD, &naturalOD, &warmOD, &fatDS, &metalDS, &octFuzz, &bluesDrive, &overdrive,
+    &tScream, &turboOD, &distortion, &rat, &guvDS, &dstPlus, &metalZone, &fuzz60s, &muffFuzz
+};
 
 uint8_t boosterBaseAddr[4] = {0x60, 0x00, 0x00, 0x30};
 EffectSlot booster("Booster", 0x0F, boosterEffects, 20, boosterBaseAddr);
+
+Effect* allEffects[20] = {
+    &midBoost, &cleanBoost, &trebleBoost, &crunchOD, &naturalOD, &warmOD, &fatDS, &metalDS, &octFuzz, &bluesDrive, &overdrive,
+    &tScream, &turboOD, &distortion, &rat, &guvDS, &dstPlus, &metalZone, &fuzz60s, &muffFuzz
+};
 
 void EffectSlot::changeEffect(uint8_t effectIdx) {
     uint8_t typeAddr[4] = {baseAddr[0], baseAddr[1], baseAddr[2], baseAddr[3] + 1};
