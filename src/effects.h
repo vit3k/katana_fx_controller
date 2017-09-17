@@ -75,6 +75,7 @@ public:
 
     void retrieve() {}
     Effect* currentEffect() { return &effects[currentEffectIdx]; }
+    void changeEffect(uint8_t effectIdx);// {}
 };
 
 extern uint8_t boosterBaseAddr[4];

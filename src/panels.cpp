@@ -76,7 +76,7 @@ void EffectListPanel::show(EffectSlot* effectSlot) {
 }
 void EffectListPanel::draw(U8G2& lcd) {
     lcd.setFont(u8g2_font_5x7_tf);
-    uint8_t last = min(firstVisible + 5, effectSlot->effectsCount);
+    uint8_t last = min(firstVisible + 5, effectSlot->effectsCount - 1);
     for(uint8_t i = 0; i < last; i++) {
         if ((firstVisible + i) != effectSlot->currentEffectIdx) {
             lcd.setDrawColor(1);
@@ -101,7 +101,7 @@ void EffectListPanel::update() {
         if (current >= effectSlot->effectsCount) {
             current = 0;
         }
-        effectSlot->currentEffectIdx = current;
+        effectSlot->changeEffect(current);
         if (current - firstVisible >= 6) {
             firstVisible++;
         }
@@ -115,7 +115,7 @@ void EffectListPanel::update() {
         if (current < 0) {
             current = effectSlot->effectsCount - 1;
         }
-        effectSlot->currentEffectIdx = current;
+        effectSlot->changeEffect(current);
         if (current < firstVisible) {
             firstVisible = current;
         }

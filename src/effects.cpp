@@ -36,3 +36,8 @@ Effect boosterEffects[20] = {midBoost, cleanBoost, trebleBoost, crunchOD, natura
 
 uint8_t boosterBaseAddr[4] = {0x60, 0x00, 0x00, 0x30};
 EffectSlot booster("Booster", 0x0F, boosterEffects, 20, boosterBaseAddr);
+
+void EffectSlot::changeEffect(uint8_t effectIdx) {
+    uint8_t typeAddr[4] = {baseAddr[0], baseAddr[1], baseAddr[2], baseAddr[3] + 1};
+    currentEffectIdx = effectIdx;
+}
