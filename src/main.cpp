@@ -1,17 +1,13 @@
 #include <SPI.h>
 #include <Wire.h>
-#include <U8g2lib.h>
-#include "knob.h"
-#include "midi.h"
+#include "gui/panels.h"
+#include "katana/midi.h"
+
 #include <Bounce2.h>
-#include "katana.h"
-#include "effects.h"
-#include "panels.h"
+#include "katana/katana.h"
+#include "effects/effects.h"
 
-U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI lcd(U8G2_R0, 49, 48, 47);
-
-USB usb;
-Midi::Midi midi(&usb);
+Midi::Midi midi;
 Katana katana(&midi);
 
 Bounce sw1 = Bounce();
@@ -19,20 +15,17 @@ Bounce sw2 = Bounce();
 Bounce sw3 = Bounce();
 Bounce sw4 = Bounce();
 
-
+Effects effects;
 EffectPanel effectPanel(&sw4, &sw2);
 EffectListPanel effectListPanel(&sw2, &sw3, &sw1);
-Panels panels(&effectPanel, &effectListPanel);
+Panels panels(&effects, &effectPanel, &effectListPanel);
 
 void setup()
 {
-
-    lcd.begin();
+    panels.setup();
+    
     Serial.begin(115200);
-    if (usb.Init() == -1) {
-        while (1);
-    }
-    delay( 200 );
+    midi.setup();
 
     pinMode(22, INPUT_PULLUP);
     sw1.attach(22);
@@ -50,12 +43,10 @@ void setup()
     sw4.attach(25);
     sw4.interval(5);
 
-    effectPanel.show(&booster);
+    panels.showEffect();
 
-    panels.show(&effectPanel);
-    Serial.println("Initialized");
+    Serial.println(F("Initialized"));
 }
-
 
 void loop()
 {
@@ -64,16 +55,14 @@ void loop()
     sw3.update();
     sw4.update();
 
-    usb.Task();
-    if ( usb.getUsbTaskState() == USB_STATE_RUNNING )
-    {
-        katana.poll();
-
+    //katana.update();
+  
+    //panels.update();
+    //panels.draw();
+    if (sw1.fell()) {
+        Serial.println("test");
+        byte addr[4] = {0x60, 0x00, 0x00, 0x30};
+        katana.set(addr, 0x01);
+        
     }
-    panels.update();
-    lcd.firstPage();
-    do {
-        panels.draw(lcd);
-
-    } while ( lcd.nextPage() );
 }
