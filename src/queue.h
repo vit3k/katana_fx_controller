@@ -1,12 +1,14 @@
 #ifndef H_QUEUE
 #define H_QUEUE
 
+#include <Arduino.h>
+
 #define MAX_QUEUE_SIZE 10
 
 template<typename T>
 class Queue {
 private:
-    byte currentIdx;
+    byte currentIdx = 0;
     byte currentCount = 0;
     byte firstIdx = 0;
     T data[MAX_QUEUE_SIZE];
@@ -29,7 +31,7 @@ public:
     T pop() {
         T ret = data[firstIdx];
         firstIdx++;
-        if (firstIdx >= 100) {
+        if (firstIdx >= MAX_QUEUE_SIZE) {
             firstIdx = 0;
         }
         currentCount--;

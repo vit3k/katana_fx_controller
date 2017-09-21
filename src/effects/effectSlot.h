@@ -4,6 +4,7 @@
 #include <Arduino.h>
 
 #include "effectParam.h"
+#include "../katana/katana.h"
 
 class EffectSlot {
 public:
@@ -12,6 +13,7 @@ public:
     byte* baseAddr;
     bool enabled;
     byte current;
+    Katana* katana;
 
     EffectSlot(String name, byte chainValue, byte baseAddr[4])
         : name(name), chainValue(chainValue), baseAddr(baseAddr), current(1) {}
@@ -23,6 +25,10 @@ public:
     virtual byte paramsCount() = 0;
     virtual byte effectsCount() = 0;
 
+    virtual void retrieve() = 0;
+    void setKatana(Katana* katana) {
+        this->katana = katana;
+    }
 };
 
 #endif

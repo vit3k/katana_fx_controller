@@ -16,7 +16,11 @@ namespace Midi {
         byte* rawData;
         Message(byte* _rawData): rawData(_rawData) {};
         Message() {};
-        ~Message() { delete[] rawData; };
+        ~Message() {
+            delete[] rawData;
+        };
+        Message(const Message& a);
+        Message& operator=(const Message& other);
         static Message parse(byte* rawData, byte length);
         virtual MessageType getType() { return Generic; };
     };
@@ -43,9 +47,29 @@ namespace Midi {
         virtual ~USBH_MIDI_ext() {}
     };
 
+    class MidiSysEx {
+    private:
+            uint8_t pos;
+            uint8_t buf[MIDI_EVENT_PACKET_SIZE];
+    public:
+            typedef enum {
+                    nonsysex = 0,
+                    ok       = 1,
+                    done     = 0xfe,
+                    overflow = 0xff
+            } Status;
+
+            MidiSysEx();
+            void clear();
+            MidiSysEx::Status set(uint8_t *p);
+            inline uint8_t *get(){return buf;};
+            inline uint8_t getSize(){return pos;};
+    };
+
     class Midi {
         USBH_MIDI_ext* midi;
         USB usb;
+        MidiSysEx sysEx;
         Queue<Message> inputQueue;
         Queue<Message> outputQueue;
         void sendQueue();
@@ -59,18 +83,8 @@ namespace Midi {
         byte getPort() { return midi->port; }
         bool isRunning();
         void update();
-        bool receive(Message* msg) {
-            auto result = inputQueue.has();
-            
-            if (result) {
-                static Message ret = inputQueue.pop();
-                msg = &ret;
-            }
-            else {
-                msg = nullptr;
-            }
-            return result;
-        }
+        bool has();
+        Message receive();
     };
 }
 

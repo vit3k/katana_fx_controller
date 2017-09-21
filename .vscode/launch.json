@@ -6,8 +6,8 @@
             "request": "launch",
             "cwd": "${workspaceRoot}",
             "name": "PlatformIO Debugger",
-            "target": "c:/Users/pwitkows/katana_fx_controller/.pioenvs/uno/firmware.elf",
-            "gdbpath": "C:/Users/pwitkows/.platformio/penv/Scripts/piodebuggdb",
+            "target": "c:/Users/pawit/katana_fx_controller/.pioenvs/uno/firmware.elf",
+            "gdbpath": "C:/Users/pawit/.platformio/penv/Scripts/piodebuggdb",
             "autorun": [ "source .pioinit" ]
         }
     ]

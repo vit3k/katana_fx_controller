@@ -6,6 +6,7 @@
 #include <Bounce2.h>
 #include "katana/katana.h"
 #include "effects/effects.h"
+#include "utils.h"
 
 Midi::Midi midi;
 Katana katana(&midi);
@@ -15,7 +16,7 @@ Bounce sw2 = Bounce();
 Bounce sw3 = Bounce();
 Bounce sw4 = Bounce();
 
-Effects effects;
+Effects effects(&katana);
 EffectPanel effectPanel(&sw4, &sw2);
 EffectListPanel effectListPanel(&sw2, &sw3, &sw1);
 Panels panels(&effects, &effectPanel, &effectListPanel);
@@ -23,7 +24,7 @@ Panels panels(&effects, &effectPanel, &effectListPanel);
 void setup()
 {
     panels.setup();
-    
+
     Serial.begin(115200);
     midi.setup();
 
@@ -55,14 +56,14 @@ void loop()
     sw3.update();
     sw4.update();
 
-    //katana.update();
-  
-    //panels.update();
-    //panels.draw();
-    if (sw1.fell()) {
-        Serial.println("test");
+    katana.update();
+
+    panels.update();
+    panels.draw();
+    /*if (sw1.fell()) {
         byte addr[4] = {0x60, 0x00, 0x00, 0x30};
-        katana.set(addr, 0x01);
-        
-    }
+        katana.query(addr, 9, Callback(nullptr, [](void* obj, byte* data, byte size) {
+            Utils::printHex(data, size);
+        }));
+    }*/
 }

@@ -5,6 +5,9 @@
 #include "effectSlot.h"
 #include "effectType.h"
 #include "effectParam.h"
+#include "../katana/katana.h"
+
+class SingleEffectSlot;
 
 class SingleEffectSlot : public EffectSlot {
 public:
@@ -22,6 +25,8 @@ public:
     void params(EffectParam** params, byte &paramsCount);
     byte paramsCount();
     byte effectsCount();
+
+    void retrieve();
 };
 
 #endif

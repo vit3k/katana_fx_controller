@@ -29,6 +29,7 @@ void EffectPanel::updateKnobs() {
 
 void EffectPanel::show(EffectSlot *effectSlot) {
     this->effectSlot = effectSlot;
+    //effectSlot->retrieve();
     currentPage = 0;
     currentKnob = 0;
     updateKnobs();
@@ -53,6 +54,8 @@ void EffectPanel::update() {
 
         panels->showEffectList(effectSlot);
     }
+
+
 }
 
 void EffectPanel::draw(U8G2* lcd) {

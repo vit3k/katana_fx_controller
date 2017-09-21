@@ -23,7 +23,7 @@ private:
         new EffectParam("Direct Mix", -0, 100, 0x06, 1)
     };
 
-    EffectType* boosterEffectTypes[BOOSTER_EFFECTS_COUNT] = 
+    EffectType* boosterEffectTypes[BOOSTER_EFFECTS_COUNT] =
     {
         new EffectType("Mid Boost", 0x00),
         new EffectType("Clean Boost", 0x01),
@@ -51,7 +51,13 @@ public:
     EffectSlot* slots[SLOTS_COUNT] = {
         new SingleEffectSlot("Booster", 0x0F, boosterBaseAddr, boosterEffectTypes, BOOSTER_EFFECTS_COUNT, boosterParams, BOOSTER_PARAMS_COUNT)
     };
-    
+
+    Effects(Katana* katana) {
+        for(byte i = 0; i < SLOTS_COUNT; i++) {
+            slots[i]->setKatana(katana);
+        }
+    }
+
     ~Effects() {
         //delete[] boosterEffectTypes;
         //delete[] boosterParams;
