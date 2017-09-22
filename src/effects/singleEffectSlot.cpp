@@ -37,3 +37,19 @@ void SingleEffectSlot::retrieve() {
         }
     }));
 }
+
+byte SingleEffectSlot::rangeSize() {
+    byte lastOffset = 0;
+    byte lastSize = 0;
+    for(byte i = 0; i < _paramsCount; i++) {
+        if (lastOffset < _params[i]->addrOffset) {
+            lastOffset = _params[i]->addrOffset;
+            lastSize = _params[i]->size;
+        }
+    }
+    return lastOffset + lastSize + 2;
+}
+
+byte SingleEffectSlot::value(byte offset) {
+    return values[offset];
+}

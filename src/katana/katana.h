@@ -20,18 +20,27 @@ public:
     KatanaCallback() {};
 };
 
+class Range {
+public:
+    byte baseAddr[4];
+    byte size;
+    byte* data;
+    byte* inRange(byte addr);
+};
+
 class Katana {
 private:
     Midi::Midi* midi;
     byte calculateChecksum(byte* vals, byte valsSize);
     KatanaCallback callbacks[10];
+    Range ranges[10];
 public:
     Katana(Midi::Midi* midi): midi(midi) {}
     void set(byte address[4], byte data);
     void sendCommand(byte command, byte address[4], byte data[4], byte dataSize);
     void query(byte address[4], byte size, Callback callback);
     void update();
-
+    byte* registerRange(byte baseAddr[4], byte size);
 };
 
 #endif

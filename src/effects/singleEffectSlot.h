@@ -25,7 +25,8 @@ public:
     EffectParam** params();
     byte paramsCount();
     byte effectsCount();
-
+    byte rangeSize();
+    byte value(byte offset);
     void retrieve();
 };
 

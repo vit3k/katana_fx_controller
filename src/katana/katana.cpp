@@ -50,7 +50,7 @@ void Katana::update() {
         Utils::printHex(msg.rawData, msg.size);
 
         if (msg.getType() == Midi::SysEx) {
-            for(byte i = 0; i < 1; i++) {
+            /*for(byte i = 0; i < 1; i++) {
                 if (!callbacks[0].free) {
                     bool compare = true;
                     for(byte j = 0; j < 4; j++) {
@@ -68,8 +68,27 @@ void Katana::update() {
                         delete data;
                     }
                 }
-            }
+            }*/
+
         }
     }
+
+}
+
+byte* Katana::registerRange(byte baseAddr[4], byte size) {
+    ranges[0].size = size;
+    memcpy(ranges[0].baseAddr, baseAddr, 4);
+    ranges[0].data = new byte[size];
+    memset(ranges[0].data, 0x00, size);
+    return ranges[0].data;
+}
+
+byte* Range:inRange(byte addr) {
+    byte lastAddr[4];
+    lastAddr[0] = addr[0];
+    lastAddr[1] = addr[1];
+    int temp = (int)addr[3];
+    temp += size;
+    //last
 
 }

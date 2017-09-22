@@ -14,7 +14,7 @@ public:
     bool enabled;
     byte current;
     Katana* katana;
-
+    byte* values;
     EffectSlot(String name, byte chainValue, byte baseAddr[4])
         : name(name), chainValue(chainValue), baseAddr(baseAddr), current(1) {}
 
@@ -26,8 +26,11 @@ public:
     virtual byte effectsCount() = 0;
 
     virtual void retrieve() = 0;
+    virtual byte rangeSize() = 0;
+    virtual byte value(byte offset) = 0;
     void setKatana(Katana* katana) {
         this->katana = katana;
+        values = katana->registerRange(baseAddr, rangeSize());
     }
 };
 

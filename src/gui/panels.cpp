@@ -20,7 +20,8 @@ void EffectPanel::updateKnobs() {
 
     for(byte i = 0; i < knobCount; i++) {
         auto param = params[currentPage * 3 + i];
-        knobs[i].setKnob(param->name.c_str(), param->value, param->minValue, param->maxValue);
+        auto value = effectSlot->value(param->addrOffset);
+        knobs[i].setKnob(param->name.c_str(), value, param->minValue, param->maxValue);
 
     }
     //delete params;
