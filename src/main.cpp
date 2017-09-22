@@ -48,6 +48,9 @@ void setup()
 
     Serial.println(F("Initialized"));
     delay(5000);
+
+    byte addr[4] = {0x7F, 0x00, 0x00, 0x01};
+    katana.set(addr, 0x01);
 }
 
 void loop()
