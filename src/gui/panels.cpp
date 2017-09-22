@@ -112,7 +112,7 @@ void EffectListPanel::draw(U8G2* lcd) {
         lcd->drawStr(0, i * 10 + 6, names[firstVisible + i].c_str());
     }
 
-    delete names;
+    delete[] names;
 }
 
 void EffectListPanel::update() {

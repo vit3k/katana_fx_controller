@@ -56,7 +56,7 @@ void loop()
     sw3.update();
     sw4.update();
 
-    katana.update();
+    //katana.update();
 
     panels.update();
     panels.draw();
