@@ -4,19 +4,18 @@
 void SingleEffectSlot::change(byte idx) {
     current = idx;
 }
-void SingleEffectSlot::list(String* names, byte &namesCount) {
-    names = new String[typesCount];
+String* SingleEffectSlot::list() {
+    auto names = new String[typesCount];
     for(byte i = 0; i < typesCount; i++) {
-        names[i] = types[i]->name;
+        names[i] = String(types[i]->name);
     }
-    namesCount = typesCount;
+    return names;
 }
 String SingleEffectSlot::currentName() {
     return types[current]->name;
 }
-void SingleEffectSlot::params(EffectParam** params, byte &paramsCount) {
-    params = _params;
-    paramsCount = _paramsCount;
+EffectParam** SingleEffectSlot::params() {
+    return _params;
 }
 
 byte SingleEffectSlot::paramsCount() {

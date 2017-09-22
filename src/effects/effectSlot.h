@@ -19,9 +19,9 @@ public:
         : name(name), chainValue(chainValue), baseAddr(baseAddr), current(1) {}
 
     virtual void change(byte idx) = 0;
-    virtual void list(String* names, byte &namesCount) = 0;
+    virtual String* list() = 0;
     virtual String currentName() = 0;
-    virtual void params(EffectParam** params, byte &paramsCount) = 0;
+    virtual EffectParam** params() = 0;
     virtual byte paramsCount() = 0;
     virtual byte effectsCount() = 0;
 

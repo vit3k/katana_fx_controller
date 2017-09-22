@@ -20,9 +20,9 @@ public:
         : EffectSlot(name, chainValue, baseAddr), types(types), typesCount(typesCount), _params(params), _paramsCount(paramsCount) {}
 
     void change(byte idx);
-    void list(String* names, byte &namesCount);
+    String* list();
     String currentName();
-    void params(EffectParam** params, byte &paramsCount);
+    EffectParam** params();
     byte paramsCount();
     byte effectsCount();
 

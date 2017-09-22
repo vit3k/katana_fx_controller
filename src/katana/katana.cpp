@@ -49,7 +49,7 @@ void Katana::update() {
         Serial.print("Received: ");
         Utils::printHex(msg.rawData, msg.size);
 
-        if (msg.rawData[0] == 0xF0) {
+        if (msg.getType() == Midi::SysEx) {
             for(byte i = 0; i < 1; i++) {
                 if (!callbacks[0].free) {
                     bool compare = true;

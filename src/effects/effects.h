@@ -53,14 +53,6 @@ public:
     };
 
     Effects(Katana* katana) {
-
-        for(byte i = 0; i < SLOTS_COUNT; i++) {
-            auto slot = (SingleEffectSlot*)slots[i];
-            Serial.println(slot->name);
-            for(byte j = 0; j < slot->_paramsCount; j++) {
-                Serial.println(slot->_params[j]->name);
-            }
-        }
         for(byte i = 0; i < SLOTS_COUNT; i++) {
             slots[i]->setKatana(katana);
         }

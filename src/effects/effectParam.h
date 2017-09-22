@@ -6,8 +6,8 @@
 class EffectParam {
 public:
     String name;
-    int16_t minValue;
-    int16_t maxValue;
+    int16_t minValue = 0;
+    int16_t maxValue= 100;
     int16_t value = 0;
     byte addrOffset;
     byte size;
