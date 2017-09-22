@@ -34,11 +34,11 @@ void Katana::set(byte address[4], byte data)
     sendCommand(0x12, address, rawData, 1);
 }
 
-void Katana::query(byte address[4], byte size, Callback callback) {
+void Katana::query(byte address[4], byte size) { //, Callback callback) {
     byte rawData[4] = {0x00, 0x00, 0x00, size};
-    callbacks[0].free = false;
-    memcpy(callbacks[0].addr, address, 4);
-    callbacks[0].callback = callback;
+    //callbacks[0].free = false;
+    //memcpy(callbacks[0].addr, address, 4);
+    //callbacks[0].callback = callback;
     sendCommand(0x11, address, rawData, 4);
 }
 void Katana::update() {
@@ -69,26 +69,45 @@ void Katana::update() {
                     }
                 }
             }*/
-
+            for(byte i = 0; i < rangeCount; i++) {
+                byte* dest = ranges[i].inRange(msg.rawData + 8);
+                if (dest != nullptr) {
+                    memcpy(dest, msg.rawData + 12, msg.size -14);
+                    break;
+                }
+            }
         }
     }
 
 }
 
 byte* Katana::registerRange(byte baseAddr[4], byte size) {
-    ranges[0].size = size;
-    memcpy(ranges[0].baseAddr, baseAddr, 4);
-    ranges[0].data = new byte[size];
-    memset(ranges[0].data, 0x00, size);
-    return ranges[0].data;
+    ranges[rangeCount] = Range(baseAddr, size);
+    return ranges[rangeCount++].data;
 }
 
-byte* Range:inRange(byte addr) {
-    byte lastAddr[4];
-    lastAddr[0] = addr[0];
-    lastAddr[1] = addr[1];
-    int temp = (int)addr[3];
+Range::Range(byte baseAddr[4], byte size) {
+    lastAddr[0] = baseAddr[0];
+    lastAddr[1] = baseAddr[1];
+    int temp = (int)baseAddr[3];
     temp += size;
-    //last
+    lastAddr[2] += (temp/128);
+    lastAddr[3] = temp % 128;
+    data = new byte[size];
+    memset(data, 0x00, size);
+}
 
+byte* Range::inRange(byte addr[4]) {
+    int as = baseAddr[2] * 128 + baseAddr[3];
+    int al = lastAddr[2] * 128 + lastAddr[3];
+    int a = addr[2] * 128 + addr[3];
+
+    if ( (a < as) || (a > al)) {
+        return nullptr;
+    }
+
+    byte offset = a - as;
+
+    return (data + offset);
+    //last
 }

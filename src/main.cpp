@@ -56,9 +56,10 @@ void loop()
     sw3.update();
     sw4.update();
 
-    //katana.update();
-
+    katana.update();
+    effects.update();
     panels.update();
+    
     panels.draw();
     /*if (sw1.fell()) {
         byte addr[4] = {0x60, 0x00, 0x00, 0x30};

@@ -62,5 +62,11 @@ public:
         //delete[] boosterEffectTypes;
         //delete[] boosterParams;
     }
+
+    void update() {
+        for(byte i = 0; i < SLOTS_COUNT; i++) {
+            slots[i]->update();
+        }
+    }
 };
 #endif

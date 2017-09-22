@@ -15,9 +15,12 @@ public:
     byte typesCount;
     EffectParam** _params;
     byte _paramsCount;
+    byte lastTypeValue;
 
     SingleEffectSlot(String name, byte chainValue, byte baseAddr[4], EffectType** types, byte typesCount, EffectParam** params, byte paramsCount)
-        : EffectSlot(name, chainValue, baseAddr), types(types), typesCount(typesCount), _params(params), _paramsCount(paramsCount) {}
+        : EffectSlot(name, chainValue, baseAddr), types(types), typesCount(typesCount), _params(params), _paramsCount(paramsCount) {
+            lastTypeValue = types[current]->typeValue;
+        }
 
     void change(byte idx);
     String* list();
@@ -27,7 +30,7 @@ public:
     byte effectsCount();
     byte rangeSize();
     byte value(byte offset);
-    void retrieve();
+    void update();
 };
 
 #endif

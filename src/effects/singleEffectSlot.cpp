@@ -25,8 +25,8 @@ byte SingleEffectSlot::effectsCount() {
     return typesCount;
 }
 
-void SingleEffectSlot::retrieve() {
-    katana->query(baseAddr, _paramsCount + 2, Callback(this, [](void* obj, byte* data, byte size) {
+void SingleEffectSlot::update() {
+/*    katana->query(baseAddr, _paramsCount + 2, Callback(this, [](void* obj, byte* data, byte size) {
         //Utils::printHex(data, size);
         auto o = (SingleEffectSlot*)obj;
         if (data[0] == 0) {
@@ -35,7 +35,23 @@ void SingleEffectSlot::retrieve() {
         else if (data[0] == 1) {
             o->enabled = true;
         }
-    }));
+    }));*/
+    if (values[0] == 0) {
+        enabled = false;
+    }
+    else if (values[0] == 1) {
+        enabled = true;
+    }
+
+    if (lastTypeValue != values[0]) {
+        for (byte i = 0; i < typesCount; i++) {
+            if (types[i]->typeValue == values[0]) {
+                current = i;
+                break;
+            }
+        }
+        lastTypeValue = values[0];
+    }
 }
 
 byte SingleEffectSlot::rangeSize() {
@@ -51,5 +67,5 @@ byte SingleEffectSlot::rangeSize() {
 }
 
 byte SingleEffectSlot::value(byte offset) {
-    return values[offset];
+    return values[offset + 2];
 }
