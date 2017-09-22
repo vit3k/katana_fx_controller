@@ -89,13 +89,14 @@ namespace Midi {
     }
 
     void Midi::send(Message& msg) {
-        Utils::printHex(msg.rawData, msg.size);
+        //Utils::printHex(msg.rawData, msg.size);
         outputQueue.push(msg);
     }
 
     void Midi::sendQueue() {
         while(outputQueue.has()) {
             auto msg = outputQueue.pop();
+            Serial.print("Sending ");
             Utils::printHex(msg.rawData, msg.size);
             midi->SendData(msg.rawData);
         }

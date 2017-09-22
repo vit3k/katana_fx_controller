@@ -32,7 +32,7 @@ public:
         this->katana = katana;
         values = katana->registerRange(baseAddr, rangeSize());
 
-        katana->query(baseAddr, paramsCount() + 2);
+        katana->query(baseAddr, rangeSize());
     }
 };
 

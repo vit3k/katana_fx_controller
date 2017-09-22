@@ -48,8 +48,8 @@ void Katana::update() {
         auto msg = midi->receive();
         Serial.print("Received: ");
         Utils::printHex(msg.rawData, msg.size);
-
-        if (msg.getType() == Midi::SysEx) {
+        //Serial.println(msg.getType());
+        if (msg.rawData[0] == 0xF0) {
             /*for(byte i = 0; i < 1; i++) {
                 if (!callbacks[0].free) {
                     bool compare = true;
@@ -95,9 +95,13 @@ Range::Range(byte baseAddr[4], byte size) {
     lastAddr[3] = temp % 128;
     data = new byte[size];
     memset(data, 0x00, size);
+    memcpy(this->baseAddr, baseAddr, 4);
+    //Utils::printHex(lastAddr, 4);
 }
 
 byte* Range::inRange(byte addr[4]) {
+    //Utils::printHex(addr, 4);
+    //Utils::printHex(baseAddr, 4);
     int as = baseAddr[2] * 128 + baseAddr[3];
     int al = lastAddr[2] * 128 + lastAddr[3];
     int a = addr[2] * 128 + addr[3];
@@ -105,9 +109,11 @@ byte* Range::inRange(byte addr[4]) {
     if ( (a < as) || (a > al)) {
         return nullptr;
     }
-
+    //Serial.print(as); Serial.print(" ");
+    //Serial.print(al); Serial.print(" ");
+    //Serial.println(a);
     byte offset = a - as;
-
+    //Serial.println(offset);
     return (data + offset);
     //last
 }

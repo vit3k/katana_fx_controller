@@ -21,7 +21,7 @@ void EffectPanel::updateKnobs() {
     for(byte i = 0; i < knobCount; i++) {
         auto param = params[currentPage * 3 + i];
         auto value = effectSlot->value(param->addrOffset);
-        knobs[i].setKnob(param->name.c_str(), value, param->minValue, param->maxValue);
+        knobs[i].setKnob(param->name.c_str(), param->mapValue(value), param->minValue, param->maxValue);
 
     }
     //delete params;
@@ -55,7 +55,7 @@ void EffectPanel::update() {
         panels->showEffectList(effectSlot);
     }
 
-
+    updateKnobs();
 }
 
 void EffectPanel::draw(U8G2* lcd) {

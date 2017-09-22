@@ -3,6 +3,8 @@
 
 void SingleEffectSlot::change(byte idx) {
     current = idx;
+    byte addr[4] = {baseAddr[0], baseAddr[1], baseAddr[2], baseAddr[3] + 1};
+    katana->set(addr, types[current]->typeValue);
 }
 String* SingleEffectSlot::list() {
     auto names = new String[typesCount];
@@ -36,6 +38,7 @@ void SingleEffectSlot::update() {
             o->enabled = true;
         }
     }));*/
+    //Utils::printHex(values, 0x07);
     if (values[0] == 0) {
         enabled = false;
     }
@@ -43,14 +46,14 @@ void SingleEffectSlot::update() {
         enabled = true;
     }
 
-    if (lastTypeValue != values[0]) {
+    if (lastTypeValue != values[1]) {
         for (byte i = 0; i < typesCount; i++) {
-            if (types[i]->typeValue == values[0]) {
+            if (types[i]->typeValue == values[1]) {
                 current = i;
                 break;
             }
         }
-        lastTypeValue = values[0];
+        lastTypeValue = values[1];
     }
 }
 
@@ -63,7 +66,8 @@ byte SingleEffectSlot::rangeSize() {
             lastSize = _params[i]->size;
         }
     }
-    return lastOffset + lastSize + 2;
+
+    return (lastOffset + lastSize + 2);
 }
 
 byte SingleEffectSlot::value(byte offset) {

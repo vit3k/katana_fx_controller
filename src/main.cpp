@@ -47,6 +47,7 @@ void setup()
     panels.showEffect();
 
     Serial.println(F("Initialized"));
+    delay(5000);
 }
 
 void loop()
@@ -59,7 +60,7 @@ void loop()
     katana.update();
     effects.update();
     panels.update();
-    
+
     panels.draw();
     /*if (sw1.fell()) {
         byte addr[4] = {0x60, 0x00, 0x00, 0x30};

@@ -15,6 +15,10 @@ public:
         : name(name), minValue(minValue), maxValue(maxValue), addrOffset(addrOffset), size(size) {}
 
     void setValue(int16_t value) { this->value = value; }
+
+    int mapValue(int value) {
+        return minValue + value;
+    }
 };
 
 #endif
