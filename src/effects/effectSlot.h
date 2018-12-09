@@ -31,7 +31,6 @@ public:
     void setKatana(Katana* katana) {
         this->katana = katana;
         values = katana->registerRange(baseAddr, rangeSize());
-
         katana->query(baseAddr, rangeSize());
     }
 };

@@ -7,7 +7,6 @@ void Panels::draw() {
     } while ( lcd->nextPage() );
 }
 void EffectPanel::updateKnobs() {
-    //knobCount = calculateKnobCount();
     EffectParam** params = effectSlot->params();
     byte paramsCount = effectSlot->paramsCount();
 
@@ -22,14 +21,11 @@ void EffectPanel::updateKnobs() {
         auto param = params[currentPage * 3 + i];
         auto value = effectSlot->value(param->addrOffset);
         knobs[i].setKnob(param->name.c_str(), param->mapValue(value), param->minValue, param->maxValue);
-
     }
-    //delete params;
 }
 
 void EffectPanel::show(EffectSlot *effectSlot) {
     this->effectSlot = effectSlot;
-    //effectSlot->retrieve();
     currentPage = 0;
     currentKnob = 0;
     updateKnobs();
@@ -98,7 +94,6 @@ void EffectListPanel::draw(U8G2* lcd) {
     byte namesCount = effectSlot->effectsCount();
 
     byte last = min(firstVisible + 6, namesCount);
-    //Serial.print(current); Serial.print(" "); Serial.print(firstVisible); Serial.print(" "); Serial.print(last); Serial.print(" "); Serial.println(effectSlot->effectsCount());
     for(byte i = firstVisible; i < last; i++) {
         if (i != effectSlot->current) {
             lcd->setDrawColor(1);
@@ -131,9 +126,6 @@ void EffectListPanel::update() {
         if ((current - firstVisible) >= 6) {
             firstVisible++;
         }
-        /*if (firstVisible + 6 >= effectSlot->effectsCount()) {
-            firstVisible = effectSlot->effectsCount() - 6;
-        }*/
     }
 
     if (prevSwitch->fell()) {

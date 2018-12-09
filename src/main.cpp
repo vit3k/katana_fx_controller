@@ -65,10 +65,4 @@ void loop()
     panels.update();
 
     panels.draw();
-    /*if (sw1.fell()) {
-        byte addr[4] = {0x60, 0x00, 0x00, 0x30};
-        katana.query(addr, 9, Callback(nullptr, [](void* obj, byte* data, byte size) {
-            Utils::printHex(data, size);
-        }));
-    }*/
 }

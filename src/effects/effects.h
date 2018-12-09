@@ -59,8 +59,6 @@ public:
     }
 
     ~Effects() {
-        //delete[] boosterEffectTypes;
-        //delete[] boosterParams;
     }
 
     void update() {

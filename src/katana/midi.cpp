@@ -18,7 +18,6 @@ namespace Midi {
     }
 
     Message& Message::operator=(const Message& other) {
-        //Serial.println("Message assign");
         rawData = new byte[other.size];
         memcpy(rawData, other.rawData, other.size);
         size = other.size;
@@ -89,7 +88,6 @@ namespace Midi {
     }
 
     void Midi::send(Message& msg) {
-        //Utils::printHex(msg.rawData, msg.size);
         outputQueue.push(msg);
     }
 
