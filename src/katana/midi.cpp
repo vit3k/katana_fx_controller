@@ -1,7 +1,7 @@
 #include "midi.h"
 #include <usbhub.h>
 #include <usbh_midi.h>
-#include "utils.h"
+#include "../utils.h"
 
 namespace Midi {
     void Midi::setup() {

@@ -67,9 +67,9 @@ private:
     EffectListPanel* effectListPanel;
     Panel* current;
 public:
-    void setup() { 
+    void setup() {
         lcd = new U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI(U8G2_R0, 49, 48, 47);
-        lcd->begin(); 
+        lcd->begin();
     }
     void show(Panel* panel) { current = panel; }
     void draw();

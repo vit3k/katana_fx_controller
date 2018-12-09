@@ -24,7 +24,6 @@ void Katana::sendCommand(byte command, byte address[4], byte data[4], byte dataS
     sysexData[8 + size] = calculateChecksum(rawData, size);
     sysexData[8 + size + 1] = 0xF7;
 
-
     Midi::SysExMessage msg = Midi::SysExMessage(sysexData, 10 + size);
     midi->send(msg);
 }

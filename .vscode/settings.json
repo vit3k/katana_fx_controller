@@ -1,0 +1,6 @@
+{
+    "terminal.integrated.env.osx": {
+        "PATH": "/Users/witek/.platformio/penv/bin:/Users/witek/.platformio/penv:/Users/witek/.cargo/bin:/Users/witek/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/witek/Library/Android/sdk/emulator:/Users/witek/Library/Android/sdk/platform-tools:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands",
+        "PLATFORMIO_CALLER": "vscode"
+    }
+}

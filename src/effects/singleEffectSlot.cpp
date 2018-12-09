@@ -28,17 +28,6 @@ byte SingleEffectSlot::effectsCount() {
 }
 
 void SingleEffectSlot::update() {
-/*    katana->query(baseAddr, _paramsCount + 2, Callback(this, [](void* obj, byte* data, byte size) {
-        //Utils::printHex(data, size);
-        auto o = (SingleEffectSlot*)obj;
-        if (data[0] == 0) {
-            o->enabled = false;
-        }
-        else if (data[0] == 1) {
-            o->enabled = true;
-        }
-    }));*/
-    //Utils::printHex(values, 0x07);
     if (values[0] == 0) {
         enabled = false;
     }
