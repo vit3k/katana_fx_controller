@@ -42,6 +42,7 @@ public:
     Katana(Midi::Midi* midi): midi(midi) {
 
     }
+    void init();
     void set(byte address[4], byte data);
     void sendCommand(byte command, byte address[4], byte data[4], byte dataSize);
     void query(byte address[4], byte size);

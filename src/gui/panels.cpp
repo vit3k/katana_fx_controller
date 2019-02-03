@@ -19,6 +19,10 @@ void EffectPanel::updateKnobs() {
 
     for(byte i = 0; i < knobCount; i++) {
         auto param = params[currentPage * 3 + i];
+        auto delta = rotaryEncoders[i]->delta();
+        /*if (delta != 0) {
+            effectSlot->updateParam(param, param->value + delta);
+        }*/
         auto value = effectSlot->value(param->addrOffset);
         knobs[i].setKnob(param->name.c_str(), param->mapValue(value), param->minValue, param->maxValue);
     }
@@ -116,7 +120,8 @@ void EffectListPanel::update() {
     }
     byte effectsCount = effectSlot->effectsCount();
     // TODO: fix navigation
-    if (nextSwitch->fell()) {
+    if (select->delta() > 0) {
+    //if (nextSwitch->fell()) {
         current++;
         if (current >= effectsCount) {
             current = 0;
@@ -127,8 +132,8 @@ void EffectListPanel::update() {
             firstVisible++;
         }
     }
-
-    if (prevSwitch->fell()) {
+    if (select->delta() < 0) {
+    //if (prevSwitch->fell()) {
         if (current == 0) {
             current = effectsCount;
             firstVisible = effectsCount - 6;

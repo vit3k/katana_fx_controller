@@ -1,6 +1,10 @@
 #include "katana.h"
 #include "../utils.h"
 
+void Katana::init() {
+    byte addr[4] = {0x7F, 0x00, 0x00, 0x01};
+    set(addr, 0x01);
+}
 byte Katana::calculateChecksum(byte* vals, byte valsSize)
 {
     byte acc = 0;

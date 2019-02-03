@@ -12,6 +12,7 @@ private:
     String title;
     int16_t val, minVal, maxVal;
     byte x, y;
+    int32_t lastRead;
 public:
     void draw(U8G2* lcd);
     void setVal(int16_t val) { this->val = val; };

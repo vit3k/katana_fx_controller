@@ -3,7 +3,8 @@
 
 void SingleEffectSlot::change(byte idx) {
     current = idx;
-    byte addr[4] = {baseAddr[0], baseAddr[1], baseAddr[2], baseAddr[3] + 1};
+    byte addr[4];
+    addOffset(baseAddr, 1, addr);
     katana->set(addr, types[current]->typeValue);
 }
 String* SingleEffectSlot::list() {
@@ -61,4 +62,10 @@ byte SingleEffectSlot::rangeSize() {
 
 byte SingleEffectSlot::value(byte offset) {
     return values[offset + 2];
+}
+
+void SingleEffectSlot::updateParam(EffectParam* param, uint32_t value) {
+    byte addr[4];
+    addOffset(baseAddr, param->addrOffset, addr);
+    katana->set(addr, (byte)value);
 }

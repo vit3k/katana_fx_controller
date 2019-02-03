@@ -7,6 +7,7 @@
 #include "../effects/effects.h"
 #include "knob.h"
 #include <Bounce2.h>
+#include "rotaryEncoder.h"
 
 class Panels;
 
@@ -28,9 +29,15 @@ private:
     void updateKnobs();
     Bounce* pageSwitch;
     Bounce* typeSwitch;
-
+    Bounce* onOffSwitch;
+    RotaryEncoder* rotaryEncoders[3];
 public:
-    EffectPanel(Bounce* pageSwitch, Bounce* typeSwitch): pageSwitch(pageSwitch), typeSwitch(typeSwitch) {}
+    EffectPanel(Bounce* pageSwitch, Bounce* typeSwitch, Bounce* onOffSwitch, RotaryEncoder* param1, RotaryEncoder* param2, RotaryEncoder* param3):
+        pageSwitch(pageSwitch), typeSwitch(typeSwitch), onOffSwitch(onOffSwitch) {
+            rotaryEncoders[0] = param1;
+            rotaryEncoders[1] = param2;
+            rotaryEncoders[2] = param3;
+        }
     byte currentPage = 0;
     byte currentKnob = 0;
     EffectSlot* effectSlot;
@@ -50,10 +57,10 @@ private:
     byte current = 0;
     byte firstVisible = 0;
     Bounce* exitSwitch;
-    Bounce* nextSwitch;
-    Bounce* prevSwitch;
+    RotaryEncoder* select;
 public:
-    EffectListPanel(Bounce* exitSwitch, Bounce* nextSwitch, Bounce* prevSwitch ): exitSwitch(exitSwitch), nextSwitch(nextSwitch), prevSwitch(prevSwitch) {}
+    EffectListPanel(Bounce* exitSwitch, RotaryEncoder* select ):
+        exitSwitch(exitSwitch), select(select) {}
     void show(EffectSlot* effectSlot);
     void draw(U8G2* lcd);
     void update();

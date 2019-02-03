@@ -9,6 +9,22 @@
 #define BOOSTER_EFFECTS_COUNT 20
 #define BOOSTER_PARAMS_COUNT 5
 #define SLOTS_COUNT 1
+/*
+class Address {
+public:
+    uint32_t addr;
+    Address(byte byte1, byte byte2, byte byte3, byte byte4) {
+        addr = (byte1 << 24) || (byte2 << 16) || (byte3 << 8) || byte4;
+    }
+    Address& operator+(int offset) {
+        addr += offset;
+        return *this;
+    }
+    byte* getBytes() {
+        byte result[4] = {addr >> 24, addr >> 16, addr >> 8, addr};
+        return result;
+    }
+};*/
 
 class Effects {
 private:

@@ -6,6 +6,8 @@
 #include "effectParam.h"
 #include "../katana/katana.h"
 
+void addOffset(byte* address, uint8_t offset, byte* result);
+
 class EffectSlot {
 public:
     String name;
@@ -28,6 +30,7 @@ public:
     virtual void update() = 0;
     virtual byte rangeSize() = 0;
     virtual byte value(byte offset) = 0;
+    virtual void updateParam(EffectParam* param, uint32_t value) = 0;
     void setKatana(Katana* katana) {
         this->katana = katana;
         values = katana->registerRange(baseAddr, rangeSize());
