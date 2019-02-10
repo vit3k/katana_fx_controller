@@ -8,23 +8,11 @@
 
 #define BOOSTER_EFFECTS_COUNT 20
 #define BOOSTER_PARAMS_COUNT 5
-#define SLOTS_COUNT 1
-/*
-class Address {
-public:
-    uint32_t addr;
-    Address(byte byte1, byte byte2, byte byte3, byte byte4) {
-        addr = (byte1 << 24) || (byte2 << 16) || (byte3 << 8) || byte4;
-    }
-    Address& operator+(int offset) {
-        addr += offset;
-        return *this;
-    }
-    byte* getBytes() {
-        byte result[4] = {addr >> 24, addr >> 16, addr >> 8, addr};
-        return result;
-    }
-};*/
+#define DELAY_PARAMS_COUNT 5
+#define DELAY_EFFECTS_COUNT 5
+#define REVERB_PARAMS_COUNT 7
+#define REVERB_EFFECTS_COUNT 5
+#define SLOTS_COUNT 3
 
 class Effects {
 private:
@@ -63,9 +51,49 @@ private:
         new EffectType("Muff Fuzz", 0x14)
     };
 
+    byte delayBaseAddr[4] = {0x60, 0x00, 0x05, 0x60};
+
+    EffectParam* delayParams[DELAY_PARAMS_COUNT] = {
+        new EffectParam("Time", 0, 2000, 0x00, 2),
+        new EffectParam("Feedback", 0, 100, 0x02, 1),
+        new EffectParam("Level", 0, 100, 0x04, 1),
+        new EffectParam("High Cut", 0, 15, 0x03, 1),
+        new EffectParam("Direct Mix", 0, 100, 0x05, 1)
+    };
+
+    EffectType* delayEffectTypes[DELAY_EFFECTS_COUNT] =
+    {
+        new EffectType("Digital", 0x00),
+        new EffectType("Reverse", 0x06),
+        new EffectType("Analog", 0x07),
+        new EffectType("Tape Echo", 0x08),
+        new EffectType("Modulate", 0x09),
+    };
+
+    byte reverbBaseAddr[4] = {0x60, 0x00, 0x06, 0x10};
+
+    EffectParam* reverbParams[REVERB_PARAMS_COUNT] = {
+        new EffectParam("Time", 0, 99, 0x00, 1),
+        new EffectParam("Density", 0, 10, 0x05, 1),
+        new EffectParam("Direct Mix", 0, 100, 0x06, 1),
+        new EffectParam("Pre-delay", 0, 500, 0x01, 2),
+        new EffectParam("Low Cut", 0, 0x11, 0x03, 1),
+        new EffectParam("High Cut", 0, 15, 0x04, 1),
+        new EffectParam("Spring Sens", 0, 100, 0x07, 1)
+    };
+    EffectType* reverbEffectTypes[REVERB_EFFECTS_COUNT] =
+    {
+        new EffectType("Room", 0x01),
+        new EffectType("Hall", 0x03),
+        new EffectType("Plate", 0x04),
+        new EffectType("Sprint", 0x05),
+        new EffectType("Modulate", 0x06),
+    };
 public:
     EffectSlot* slots[SLOTS_COUNT] = {
-        new SingleEffectSlot("Booster", 0x0F, boosterBaseAddr, boosterEffectTypes, BOOSTER_EFFECTS_COUNT, boosterParams, BOOSTER_PARAMS_COUNT)
+        new SingleEffectSlot("Booster", 0x0F, boosterBaseAddr, boosterEffectTypes, BOOSTER_EFFECTS_COUNT, boosterParams, BOOSTER_PARAMS_COUNT),
+        new SingleEffectSlot("Delay", 0x00, delayBaseAddr, delayEffectTypes, DELAY_EFFECTS_COUNT, delayParams, DELAY_PARAMS_COUNT),
+        new SingleEffectSlot("Reverb", 0x00, reverbBaseAddr, reverbEffectTypes, REVERB_EFFECTS_COUNT, reverbParams, REVERB_PARAMS_COUNT),
     };
 
     Effects(Katana* katana) {

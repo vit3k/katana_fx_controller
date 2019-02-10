@@ -1,4 +1,5 @@
 #include "midi.h"
+#define DEBUG_USB_HOST
 #include <usbhub.h>
 #include <usbh_midi.h>
 #include "../utils.h"

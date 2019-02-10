@@ -21,7 +21,7 @@ RotaryEncoder enc2 = RotaryEncoder(18, 19);
 RotaryEncoder enc3 = RotaryEncoder(20, 21);
 
 Effects effects(&katana);
-EffectPanel effectPanel(&sw3, &sw2, &sw1, &enc1, &enc2, &enc3);
+EffectPanel effectPanel(&sw3, &sw1, &sw2, &enc1, &enc2, &enc3);
 EffectListPanel effectListPanel(&sw1, &enc1);
 Panels panels(&effects, &effectPanel, &effectListPanel);
 
@@ -32,11 +32,11 @@ void setup()
     Serial.begin(115200);
     midi.setup();
 
-    /*pinMode(22, INPUT_PULLUP);
+    pinMode(22, INPUT_PULLUP);
     sw1.attach(22);
     sw1.interval(5);
 
-    pinMode(23, INPUT_PULLUP);
+    /*pinMode(23, INPUT_PULLUP);
     sw2.attach(23);
     sw2.interval(5);
 
@@ -59,13 +59,13 @@ void setup()
 //void printf()
 void loop()
 {
-    //sw1.update();
+    sw1.update();
     //sw2.update();
     //sw3.update();
     //sw4.update();
 
-    //katana.update();
-    //effects.update();
+    katana.update();
+    effects.update();
     panels.update();
 
     panels.draw();

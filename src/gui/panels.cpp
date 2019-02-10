@@ -1,4 +1,5 @@
 #include "panels.h"
+#include <math.h>
 
 void Panels::draw() {
     lcd->firstPage();
@@ -20,10 +21,11 @@ void EffectPanel::updateKnobs() {
     for(byte i = 0; i < knobCount; i++) {
         auto param = params[currentPage * 3 + i];
         auto delta = rotaryEncoders[i]->delta();
-        /*if (delta != 0) {
-            effectSlot->updateParam(param, param->value + delta);
-        }*/
         auto value = effectSlot->value(param->addrOffset);
+        if (delta != 0) {
+            effectSlot->updateParam(param, value + (int32_t)ceil((float)delta/4.0f));
+        }
+
         knobs[i].setKnob(param->name.c_str(), param->mapValue(value), param->minValue, param->maxValue);
     }
 }
@@ -119,6 +121,7 @@ void EffectListPanel::update() {
         panels->showEffect(effectSlot);
     }
     byte effectsCount = effectSlot->effectsCount();
+
     // TODO: fix navigation
     if (select->delta() > 0) {
     //if (nextSwitch->fell()) {

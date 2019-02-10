@@ -66,6 +66,8 @@ byte SingleEffectSlot::value(byte offset) {
 
 void SingleEffectSlot::updateParam(EffectParam* param, uint32_t value) {
     byte addr[4];
-    addOffset(baseAddr, param->addrOffset, addr);
+    addOffset(baseAddr, param->addrOffset + 2, addr);
     katana->set(addr, (byte)value);
+    //param->value = value;
+    values[param->addrOffset + 2] = value;
 }
