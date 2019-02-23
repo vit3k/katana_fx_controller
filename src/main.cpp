@@ -15,6 +15,7 @@ Katana katana(&midi);
 Bounce sw1 = Bounce();
 Bounce sw2 = Bounce();
 Bounce sw3 = Bounce();
+Bounce homeSwitch = Bounce();
 //Bounce sw4 = Bounce();
 RotaryEncoder enc1 = RotaryEncoder(2, 3);
 RotaryEncoder enc2 = RotaryEncoder(18, 19);
@@ -23,7 +24,9 @@ RotaryEncoder enc3 = RotaryEncoder(20, 21);
 Effects effects(&katana);
 EffectPanel effectPanel(&sw3, &sw1, &sw2, &enc1, &enc2, &enc3);
 EffectListPanel effectListPanel(&sw1, &enc1);
-Panels panels(&effects, &effectPanel, &effectListPanel);
+SlotListPanel slotListPanel(&sw1, &enc1, (EffectSlot**)effects.slots, 3);
+
+Panels panels(&effects, &effectPanel, &effectListPanel, &slotListPanel, &homeSwitch);
 
 void setup()
 {
