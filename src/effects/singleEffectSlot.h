@@ -31,7 +31,7 @@ public:
     byte rangeSize();
     byte value(byte offset);
     void update();
-    virtual void updateParam(EffectParam* param, uint32_t value);
+    virtual void updateParam(EffectParam* param, int32_t value);
 };
 
 #endif

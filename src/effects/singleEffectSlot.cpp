@@ -64,7 +64,13 @@ byte SingleEffectSlot::value(byte offset) {
     return values[offset + 2];
 }
 
-void SingleEffectSlot::updateParam(EffectParam* param, uint32_t value) {
+void SingleEffectSlot::updateParam(EffectParam* param, int32_t value) {
+    if (value < param->minValue) {
+        value = param->minValue;
+    }
+    if (value > param->maxValue) {
+        value = param->maxValue;
+    }
     byte addr[4];
     addOffset(baseAddr, param->addrOffset + 2, addr);
     katana->set(addr, (byte)value);

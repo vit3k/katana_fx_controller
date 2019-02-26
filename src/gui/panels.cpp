@@ -7,6 +7,12 @@ void Panels::draw() {
         current->draw(lcd);
     } while ( lcd->nextPage() );
 }
+void Panels::update() {
+    if (homeSwitch->fell()) {
+        showSlotList();
+    }
+    current->update();
+}
 void EffectPanel::updateKnobs() {
     EffectParam** params = effectSlot->params();
     byte paramsCount = effectSlot->paramsCount();
@@ -23,7 +29,7 @@ void EffectPanel::updateKnobs() {
         auto delta = rotaryEncoders[i]->delta();
         auto value = effectSlot->value(param->addrOffset);
         if (delta != 0) {
-            effectSlot->updateParam(param, value + (int32_t)ceil((float)delta/4.0f));
+            effectSlot->updateParam(param, value + delta);
         }
 
         knobs[i].setKnob(param->name.c_str(), param->mapValue(value), param->minValue, param->maxValue);
@@ -121,9 +127,9 @@ void EffectListPanel::update() {
         panels->showEffect(effectSlot);
     }
     byte effectsCount = effectSlot->effectsCount();
-
+    auto delta = select->delta();
     // TODO: fix navigation
-    if (select->delta() > 0) {
+    if (delta> 0) {
     //if (nextSwitch->fell()) {
         current++;
         if (current >= effectsCount) {
@@ -135,7 +141,7 @@ void EffectListPanel::update() {
             firstVisible++;
         }
     }
-    if (select->delta() < 0) {
+    if (delta < 0) {
     //if (prevSwitch->fell()) {
         if (current == 0) {
             current = effectsCount;

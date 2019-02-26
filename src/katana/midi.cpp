@@ -54,7 +54,7 @@ namespace Midi {
 
     void Midi::poll() {
         uint16_t bytesRcvd = 0;
-        byte size = 0;
+        //byte size = 0;
 
         byte recvBuf[MIDI_EVENT_PACKET_SIZE];
         byte readPtr = 0;
@@ -70,7 +70,7 @@ namespace Midi {
             switch(rc) {
                 case MidiSysEx::nonsysex:
                     p++;
-                    size = midi->lookupMsgSize(*p);
+                    //size = midi->lookupMsgSize(*p);
                     p += 3;
                     break;
                 case MidiSysEx::done:

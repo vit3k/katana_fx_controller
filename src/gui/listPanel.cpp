@@ -27,8 +27,8 @@ void ListPanel::update() {
     }
     byte count = listCount();
 
-    // TODO: fix navigation
-    if (change->delta() > 0) {
+    auto delta = change->delta();
+    if (delta > 0) {
         current++;
         if (current >= count) {
             current = 0;
@@ -39,7 +39,7 @@ void ListPanel::update() {
             firstVisible++;
         }
     }
-    if (change->delta() < 0) {
+    if (delta< 0) {
         if (current == 0) {
             current = count;
             firstVisible = count - 6;
