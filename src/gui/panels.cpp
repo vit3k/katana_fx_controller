@@ -50,6 +50,7 @@ byte EffectPanel::calculateKnobCount() {
 
 void EffectPanel::update() {
     if (pageSwitch->fell()) {
+        Serial.println("pageswith fell");
         byte pageCount = ceil( (float)effectSlot->paramsCount() / 3.0f);
         currentPage++;
         if (currentPage >= pageCount) {
@@ -92,66 +93,4 @@ void EffectPanel::draw(U8G2* lcd) {
     }
 }
 
-void EffectListPanel::show(EffectSlot* effectSlot) {
-    this->effectSlot = effectSlot;
-    firstVisible = effectSlot->current;
-    if (firstVisible + 6 > effectSlot->effectsCount()) {
-        firstVisible = effectSlot->effectsCount() - 6;
-    }
-    current = effectSlot->current;
-}
-void EffectListPanel::draw(U8G2* lcd) {
-    lcd->setFont(u8g2_font_5x7_tf);
-    String* names = effectSlot->list();
-    byte namesCount = effectSlot->effectsCount();
 
-    byte last = min(firstVisible + 6, namesCount);
-    for(byte i = firstVisible; i < last; i++) {
-        if (i != effectSlot->current) {
-            lcd->setDrawColor(1);
-        }
-        else {
-            lcd->setDrawColor(1);
-            lcd->drawBox(0, (i - firstVisible) * 10 - 1, 120, 8);
-            lcd->setDrawColor(0);
-        }
-
-        lcd->drawStr(0, (i - firstVisible) * 10 + 6, names[i].c_str());
-    }
-
-    delete[] names;
-}
-
-void EffectListPanel::update() {
-    if (exitSwitch->fell()) {
-        panels->showEffect(effectSlot);
-    }
-    byte effectsCount = effectSlot->effectsCount();
-    auto delta = select->delta();
-    // TODO: fix navigation
-    if (delta> 0) {
-    //if (nextSwitch->fell()) {
-        current++;
-        if (current >= effectsCount) {
-            current = 0;
-            firstVisible = 0;
-        }
-        effectSlot->change(current);
-        if ((current - firstVisible) >= 6) {
-            firstVisible++;
-        }
-    }
-    if (delta < 0) {
-    //if (prevSwitch->fell()) {
-        if (current == 0) {
-            current = effectsCount;
-            firstVisible = effectsCount - 6;
-        }
-        current--;
-
-        effectSlot->change(current);
-        if (current < firstVisible) {
-            firstVisible = current;
-        }
-    }
-}

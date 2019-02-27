@@ -65,7 +65,9 @@ namespace Midi {
             inline uint8_t *get(){return buf;};
             inline uint8_t getSize(){return pos;};
     };
-
+    enum MIDI_STATE {
+        READY, NOT_READY
+    };
     class Midi {
         USBH_MIDI_ext* midi;
         USB usb;
@@ -73,6 +75,7 @@ namespace Midi {
         Queue<Message> inputQueue;
         Queue<Message> outputQueue;
         void sendQueue();
+        MIDI_STATE lastState = NOT_READY;
     public:
         Midi(): midi(new USBH_MIDI_ext(&usb)) {};
         ~Midi() { delete midi; }

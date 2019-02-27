@@ -57,30 +57,32 @@ protected:
     virtual byte listCount() = 0;
     virtual void onChange() {}
     virtual void onSelect() {}
+
     Bounce* select;
     RotaryEncoder* change;
     byte current = 0;
     byte firstVisible = 0;
 public:
+    void init();
     void draw(U8G2* lcd);
     void update();
     ListPanel(RotaryEncoder* change, Bounce* select)
         : select(select), change(change) {}
 };
 
-class EffectListPanel : public Panel {
-private:
+class EffectListPanel : public ListPanel {
+protected:
+    virtual String* list();
+    virtual byte listCount();
+    virtual void onSelect();
+    virtual void onChange();
     EffectSlot* effectSlot;
-    byte current = 0;
-    byte firstVisible = 0;
-    Bounce* exitSwitch;
-    RotaryEncoder* select;
+    String* names;
 public:
-    EffectListPanel(Bounce* exitSwitch, RotaryEncoder* select ):
-        exitSwitch(exitSwitch), select(select) {}
+    EffectListPanel(Bounce* select, RotaryEncoder* change):
+        ListPanel(change, select) {}
+
     void show(EffectSlot* effectSlot);
-    void draw(U8G2* lcd);
-    void update();
 };
 
 class SlotListPanel : public ListPanel {
@@ -117,7 +119,7 @@ private:
     Bounce* homeSwitch;
 public:
     void setup() {
-        lcd = new U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI(U8G2_R0, 10, 9, 8);
+        lcd = new U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI(U8G2_R0, 15, 20, 16);
         lcd->begin();
     }
     void show(Panel* panel) { current = panel; }

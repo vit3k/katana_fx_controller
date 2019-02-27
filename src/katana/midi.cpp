@@ -9,6 +9,7 @@ namespace Midi {
         if (usb.Init() == -1) {
             while (1);
         }
+        //usb.
         delay( 200 );
     }
 
@@ -103,7 +104,13 @@ namespace Midi {
     }
     bool Midi::isRunning() {
         usb.Task();
-        return usb.getUsbTaskState() == USB_STATE_RUNNING;
+        if (usb.getUsbTaskState() == USB_STATE_RUNNING) {
+            if (lastState != READY) {
+
+            }
+            return true;
+        }
+        return false;
     }
 
     void Midi::update() {

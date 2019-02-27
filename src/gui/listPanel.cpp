@@ -1,6 +1,12 @@
 #include "panels.h"
 #include <math.h>
 
+void ListPanel::init() {
+    firstVisible = current;
+    if (firstVisible + 6 > listCount()) {
+        firstVisible = listCount() - 6;
+    }
+}
 void ListPanel::draw(U8G2* lcd) {
     lcd->setFont(u8g2_font_5x7_tf);
     String* names = list();
