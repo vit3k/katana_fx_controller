@@ -2,9 +2,12 @@
 #include <math.h>
 
 void ListPanel::init() {
-    firstVisible = current;
-    if (firstVisible + 6 > listCount()) {
+    if (current < 6) {
+        firstVisible = 0;
+    } else if (current > (listCount() - 6)) {
         firstVisible = listCount() - 6;
+    } else {
+        firstVisible = current;
     }
 }
 void ListPanel::draw(U8G2* lcd) {
@@ -48,7 +51,7 @@ void ListPanel::update() {
     if (delta< 0) {
         if (current == 0) {
             current = count;
-            firstVisible = count - 6;
+            firstVisible = max(count - 6, 0);
         }
         current--;
 
