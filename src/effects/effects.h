@@ -5,14 +5,16 @@
 #include "effectParam.h"
 #include "effectType.h"
 #include "singleEffectSlot.h"
+#include "ampSlot.h"
+#include "noiseGateSlot.h"
 
 #define BOOSTER_EFFECTS_COUNT 20
 #define BOOSTER_PARAMS_COUNT 5
-#define DELAY_PARAMS_COUNT 5
-#define DELAY_EFFECTS_COUNT 5
-#define REVERB_PARAMS_COUNT 7
+#define DELAY_PARAMS_COUNT 7
+#define DELAY_EFFECTS_COUNT 6
+#define REVERB_PARAMS_COUNT 8
 #define REVERB_EFFECTS_COUNT 5
-#define SLOTS_COUNT 3
+#define SLOTS_COUNT 6
 
 class Effects {
 private:
@@ -24,7 +26,7 @@ private:
         new EffectParam("Tone", -50, 50, 0x02, 1),
         new EffectParam("Level", 0, 100, 0x05, 1),
         new EffectParam("Bottom", -50, 50, 0x01, 1),
-        new EffectParam("Direct Mix", -0, 100, 0x06, 1)
+        new EffectParam("D Mix", -0, 100, 0x06, 1)
     };
 
     EffectType* boosterEffectTypes[BOOSTER_EFFECTS_COUNT] =
@@ -52,13 +54,16 @@ private:
     };
 
     byte delayBaseAddr[4] = {0x60, 0x00, 0x05, 0x60};
+    byte delay2BaseAddr[4] = {0x60, 0x00, 0x10, 0x4E};
 
     EffectParam* delayParams[DELAY_PARAMS_COUNT] = {
         new EffectParam("Time", 0, 2000, 0x00, 2),
         new EffectParam("Feedback", 0, 100, 0x02, 1),
-        new EffectParam("Level", 0, 100, 0x04, 1),
-        new EffectParam("High Cut", 0, 15, 0x03, 1),
-        new EffectParam("Direct Mix", 0, 100, 0x05, 1)
+        new EffectParam("Level", 0, 120, 0x04, 1),
+        new EffectParam("H Cut", 0, 15, 0x03, 1),
+        new EffectParam("D Mix", 0, 100, 0x05, 1),
+        new EffectParam("M Depth", 0, 100, 18, 1),
+        new EffectParam("M Rate", 0, 100, 17, 1)
     };
 
     EffectType* delayEffectTypes[DELAY_EFFECTS_COUNT] =
@@ -68,6 +73,7 @@ private:
         new EffectType("Analog", 0x07),
         new EffectType("Tape Echo", 0x08),
         new EffectType("Modulate", 0x09),
+        new EffectType("SDE-3000", 0x0A)
     };
 
     byte reverbBaseAddr[4] = {0x60, 0x00, 0x06, 0x10};
@@ -75,11 +81,12 @@ private:
     EffectParam* reverbParams[REVERB_PARAMS_COUNT] = {
         new EffectParam("Time", 0, 99, 0x00, 1),
         new EffectParam("Density", 0, 10, 0x05, 1),
-        new EffectParam("Direct Mix", 0, 100, 0x06, 1),
-        new EffectParam("Pre-delay", 0, 500, 0x01, 2),
-        new EffectParam("Low Cut", 0, 0x11, 0x03, 1),
-        new EffectParam("High Cut", 0, 15, 0x04, 1),
-        new EffectParam("Spring Sens", 0, 100, 0x07, 1)
+        new EffectParam("Level", 0, 100, 0x06, 1),
+        new EffectParam("D Mix", 0, 100, 0x06, 1),
+        new EffectParam("Pre-d", 0, 500, 0x01, 2),
+        new EffectParam("L cut", 0, 0x11, 0x03, 1),
+        new EffectParam("H cut", 0, 15, 0x04, 1),
+        new EffectParam("Spr Sen", 0, 100, 0x07, 1)
     };
     EffectType* reverbEffectTypes[REVERB_EFFECTS_COUNT] =
     {
@@ -91,8 +98,11 @@ private:
     };
 public:
     EffectSlot* slots[SLOTS_COUNT] = {
+        new NoiseGateSlot(),
         new SingleEffectSlot("Booster", 0x0F, boosterBaseAddr, boosterEffectTypes, BOOSTER_EFFECTS_COUNT, boosterParams, BOOSTER_PARAMS_COUNT),
+        new AmpSlot(),
         new SingleEffectSlot("Delay", 0x00, delayBaseAddr, delayEffectTypes, DELAY_EFFECTS_COUNT, delayParams, DELAY_PARAMS_COUNT),
+        new SingleEffectSlot("Delay 2", 0x00, delay2BaseAddr, delayEffectTypes, DELAY_EFFECTS_COUNT, delayParams, DELAY_PARAMS_COUNT),
         new SingleEffectSlot("Reverb", 0x00, reverbBaseAddr, reverbEffectTypes, REVERB_EFFECTS_COUNT, reverbParams, REVERB_PARAMS_COUNT),
     };
 

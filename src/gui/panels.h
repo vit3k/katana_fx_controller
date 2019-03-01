@@ -8,105 +8,10 @@
 #include "knob.h"
 #include <Bounce2.h>
 #include "rotaryEncoder.h"
-
-class Panels;
-
-class Panel {
-protected:
-    Panels* panels;
-public:
-    virtual void draw(U8G2* lcd);
-    virtual void update();
-    void setPanels(Panels* panels) {
-        this->panels = panels;
-    }
-};
-
-class EffectPanel : public Panel {
-private:
-    byte calculateKnobCount();
-    byte knobCount;
-    void updateKnobs();
-    Bounce* pageSwitch;
-    Bounce* typeSwitch;
-    Bounce* onOffSwitch;
-    RotaryEncoder* rotaryEncoders[3];
-public:
-    EffectPanel(Bounce* pageSwitch, Bounce* typeSwitch, Bounce* onOffSwitch, RotaryEncoder* param1, RotaryEncoder* param2, RotaryEncoder* param3):
-        pageSwitch(pageSwitch), typeSwitch(typeSwitch), onOffSwitch(onOffSwitch) {
-            rotaryEncoders[0] = param1;
-            rotaryEncoders[1] = param2;
-            rotaryEncoders[2] = param3;
-        }
-    byte currentPage = 0;
-    byte currentKnob = 0;
-    EffectSlot* effectSlot;
-    Knob knobs[3] = {
-        Knob(15, 29),
-        Knob(64, 29),
-        Knob(113, 29)
-    };
-    void update();
-    void draw(U8G2* lcd);
-    void show(EffectSlot* effectSlot);
-};
-
-class ListPanel : public Panel {
-protected:
-    virtual String* list() = 0;
-    virtual byte listCount() = 0;
-    virtual void onChange() {}
-    virtual void onSelect() {}
-
-    Bounce* select;
-    RotaryEncoder* change;
-    byte current = 0;
-    byte firstVisible = 0;
-public:
-    void init();
-    void draw(U8G2* lcd);
-    void update();
-    ListPanel(RotaryEncoder* change, Bounce* select)
-        : select(select), change(change) {}
-};
-
-class EffectListPanel : public ListPanel {
-protected:
-    virtual String* list();
-    virtual byte listCount();
-    virtual void onSelect();
-    virtual void onChange();
-    EffectSlot* effectSlot;
-    String* names;
-public:
-    EffectListPanel(Bounce* select, RotaryEncoder* change):
-        ListPanel(change, select) {}
-
-    void show(EffectSlot* effectSlot);
-};
-
-class SlotListPanel : public ListPanel {
-protected:
-    virtual String* list();
-    virtual byte listCount();
-    virtual void onSelect();
-    EffectSlot** slots;
-    byte slotsCount;
-    String* names;
-public:
-    SlotListPanel(Bounce* select, RotaryEncoder* change, EffectSlot** slots, byte slotsCount):
-        ListPanel(change, select), slots(slots), slotsCount(slotsCount)
-    {
-        names = new String[slotsCount];
-        for(byte i = 0; i < slotsCount; i++) {
-            names[i] = slots[i]->name;
-        }
-    }
-    ~SlotListPanel()
-    {
-        delete[] names;
-    }
-};
+#include "slotListPanel.h"
+#include "effectPanel.h"
+#include "effectListPanel.h"
+#include "panel.h"
 
 class Panels {
 private:

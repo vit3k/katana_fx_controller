@@ -12,9 +12,9 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "c:/Users/pawit/katana_fx_controller/.pioenvs/teensy/firmware.elf",
-            "toolchainBinDir": "C:/Users/pawit/.platformio/packages/toolchain-gccarmnoneeabi/bin",
-            "svdPath": "C:/Users/pawit/.platformio/platforms/teensy/misc/svd/MK20D5.svd",
+            "executable": "/Users/witek/katana_fx_controller/.pioenvs/teensy/firmware.elf",
+            "toolchainBinDir": "/Users/witek/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.0/bin",
+            "svdPath": "/Users/witek/.platformio/platforms/teensy/misc/svd/MK20D5.svd",
             "preLaunchTask": {
                 "type": "PlatformIO",
                 "task": "Pre-Debug"
@@ -25,9 +25,9 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "c:/Users/pawit/katana_fx_controller/.pioenvs/teensy/firmware.elf",
-            "toolchainBinDir": "C:/Users/pawit/.platformio/packages/toolchain-gccarmnoneeabi/bin",
-            "svdPath": "C:/Users/pawit/.platformio/platforms/teensy/misc/svd/MK20D5.svd",
+            "executable": "/Users/witek/katana_fx_controller/.pioenvs/teensy/firmware.elf",
+            "toolchainBinDir": "/Users/witek/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.0/bin",
+            "svdPath": "/Users/witek/.platformio/platforms/teensy/misc/svd/MK20D5.svd",
             "internalConsoleOptions": "openOnSessionStart"
         }
     ]

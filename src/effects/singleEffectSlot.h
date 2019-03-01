@@ -29,9 +29,10 @@ public:
     byte paramsCount();
     byte effectsCount();
     byte rangeSize();
-    int value(EffectParam* param);
     void update();
+    int32_t value(EffectParam* param);
     virtual void updateParam(EffectParam* param, int32_t value);
+    void onoff() { setOnoff(0); }
 };
 
 #endif

@@ -1,4 +1,4 @@
-#include "panels.h"
+#include "listPanel.h"
 #include <math.h>
 
 void ListPanel::init() {

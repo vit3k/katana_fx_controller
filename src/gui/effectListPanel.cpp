@@ -1,3 +1,4 @@
+#include "effectListPanel.h"
 #include "panels.h"
 
 void EffectListPanel::show(EffectSlot* effectSlot) {

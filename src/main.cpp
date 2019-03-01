@@ -24,7 +24,7 @@ RotaryEncoder enc3 = RotaryEncoder(4, 5);
 Effects effects(&katana);
 EffectPanel effectPanel(&sw3, &sw1, &sw2, &enc1, &enc2, &enc3);
 EffectListPanel effectListPanel(&sw1, &enc1);
-SlotListPanel slotListPanel(&sw1, &enc1, (EffectSlot**)effects.slots, 3);
+SlotListPanel slotListPanel(&sw1, &enc1, (EffectSlot**)effects.slots, SLOTS_COUNT, &sw2);
 
 Panels panels(&effects, &effectPanel, &effectListPanel, &slotListPanel, &homeSwitch);
 void update() {
@@ -54,7 +54,7 @@ void setup()
     sw3.attach(3);
     sw3.interval(5);
 
-    panels.showEffect();
+    panels.showSlotList();
 
     Serial.println(F("Initialized. Waiting..."));
     //delay(5000);
@@ -68,8 +68,10 @@ void loop()
 {
     homeSwitch.update();
     sw1.update();
+    sw2.update();
     sw3.update();
     enc1.update();
+    enc2.update();
     enc3.update();
 
     //attachInterrupt(5, update, FALLING);

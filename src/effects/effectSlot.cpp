@@ -9,3 +9,4 @@ void addOffset(byte* address, uint8_t offset, byte* result) {
     }
     result[3] = lastByte % 128;
 }
+

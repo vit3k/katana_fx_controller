@@ -6,21 +6,24 @@
 class EffectParam {
 public:
     String name;
-    int16_t minValue = 0;
-    int16_t maxValue= 100;
-    int16_t value = 0;
+    int32_t minValue = 0;
+    int32_t maxValue= 100;
+    int32_t val = 0;
     byte addrOffset;
     byte size;
-    EffectParam(String name, int16_t minValue, int16_t maxValue, byte addrOffset, byte size)
+    EffectParam(String name, int32_t minValue, int32_t maxValue, byte addrOffset, byte size)
         : name(name), minValue(minValue), maxValue(maxValue), addrOffset(addrOffset), size(size) {}
 
-    int mapValue(int value) {
-        return minValue + value;
+    int mapValue(int val) {
+        return minValue + val;
     }
 
-    uint16_t unmapValue(int value) {
-        return value - minValue;
+    uint16_t unmapValue(int val) {
+        return val - minValue;
     }
+
+    int32_t value(byte* values);
+    void update(byte* values, int32_t value);
 };
 
 #endif
