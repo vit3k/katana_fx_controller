@@ -93,7 +93,7 @@ private:
         new EffectType("Room", 0x01),
         new EffectType("Hall", 0x03),
         new EffectType("Plate", 0x04),
-        new EffectType("Sprint", 0x05),
+        new EffectType("Spring", 0x05),
         new EffectType("Modulate", 0x06),
     };
 public:
