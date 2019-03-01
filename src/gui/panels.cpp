@@ -26,13 +26,17 @@ void EffectPanel::updateKnobs() {
 
     for(byte i = 0; i < knobCount; i++) {
         auto param = params[currentPage * 3 + i];
-        auto delta = rotaryEncoders[i]->delta();
-        auto value = effectSlot->value(param->addrOffset);
+        auto multiplier = 1;
+        if (param->maxValue - param->minValue > 200) {
+            multiplier = 16;
+        }
+        auto delta = rotaryEncoders[i]->delta(multiplier);
+        auto value = effectSlot->value(param);
         if (delta != 0) {
             effectSlot->updateParam(param, value + delta);
         }
 
-        knobs[i].setKnob(param->name.c_str(), param->mapValue(value), param->minValue, param->maxValue);
+        knobs[i].setKnob(param->name.c_str(), value, param->minValue, param->maxValue);
     }
 }
 

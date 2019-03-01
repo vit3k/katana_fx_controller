@@ -29,7 +29,7 @@ public:
 
     virtual void update() = 0;
     virtual byte rangeSize() = 0;
-    virtual byte value(byte offset) = 0;
+    virtual int value(EffectParam* param) = 0;
     virtual void updateParam(EffectParam* param, int32_t value) = 0;
     void setKatana(Katana* katana) {
         this->katana = katana;

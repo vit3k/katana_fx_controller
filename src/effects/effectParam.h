@@ -14,10 +14,12 @@ public:
     EffectParam(String name, int16_t minValue, int16_t maxValue, byte addrOffset, byte size)
         : name(name), minValue(minValue), maxValue(maxValue), addrOffset(addrOffset), size(size) {}
 
-    void setValue(int16_t value) { this->value = value; }
-
     int mapValue(int value) {
         return minValue + value;
+    }
+
+    uint16_t unmapValue(int value) {
+        return value - minValue;
     }
 };
 

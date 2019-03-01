@@ -43,7 +43,7 @@ public:
 
     }
     void init();
-    void set(byte address[4], byte data);
+    void set(byte address[4], uint16_t data);
     void sendCommand(byte command, byte address[4], byte data[4], byte dataSize);
     void query(byte address[4], byte size);
     void update();

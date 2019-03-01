@@ -13,9 +13,8 @@ private:
     float tps;
     int32_t lastTpsValue;
     unsigned long lastTpsTime;
-    byte multiplier;
 public:
-    int32_t delta() {
+    int32_t delta(byte multiplier) {
         auto read = encoder.read();
         auto d = ceil((read - lastRead)/4);
         int32_t step = 0;
@@ -24,16 +23,15 @@ public:
             auto speed = constrain(tps, MIN_TPS, MAX_TPS) - MIN_TPS;
             auto sign = d > 0 ? 1 : -1;
             step = sign * (1 + abs(d) * multiplier * speed * speed * speed / ((MAX_TPS - MIN_TPS) * (MAX_TPS - MIN_TPS) * (MAX_TPS - MIN_TPS)));
-            Serial.printf("%f %d\n", speed, step);
             lastRead = read;
         }
         return step;
     }
+    int32_t delta() {
+        return delta(1);
+    }
     int32_t value() {
         return val;
-    }
-    void setMultiplier(byte m) {
-        multiplier = m;
     }
 
     void update() {
@@ -48,7 +46,7 @@ public:
     }
 
     RotaryEncoder(uint8_t pin1, uint8_t pin2): encoder(Encoder(pin1, pin2)),
-        lastRead(0), tps(0), lastTpsValue(0), lastTpsTime(millis()), multiplier(4) {}
+        lastRead(0), tps(0), lastTpsValue(0), lastTpsTime(millis()) {}
 };
 
 #endif

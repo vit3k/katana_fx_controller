@@ -29,7 +29,7 @@ public:
     byte paramsCount();
     byte effectsCount();
     byte rangeSize();
-    byte value(byte offset);
+    int value(EffectParam* param);
     void update();
     virtual void updateParam(EffectParam* param, int32_t value);
 };

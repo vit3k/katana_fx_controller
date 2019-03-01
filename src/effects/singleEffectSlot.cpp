@@ -60,8 +60,15 @@ byte SingleEffectSlot::rangeSize() {
     return (lastOffset + lastSize + 2);
 }
 
-byte SingleEffectSlot::value(byte offset) {
-    return values[offset + 2];
+int SingleEffectSlot::value(EffectParam* param) {
+    
+    int value = values[param->addrOffset + 2];
+    //Serial.printf("value.value %d\n", value);
+    if (param->size == 2) {
+        value |= (values[param->addrOffset + 3] << 7);
+    }
+    
+    return param->mapValue(value);
 }
 
 void SingleEffectSlot::updateParam(EffectParam* param, int32_t value) {
@@ -73,7 +80,10 @@ void SingleEffectSlot::updateParam(EffectParam* param, int32_t value) {
     }
     byte addr[4];
     addOffset(baseAddr, param->addrOffset + 2, addr);
-    katana->set(addr, (byte)value);
-    //param->value = value;
-    values[param->addrOffset + 2] = value;
+    auto unmapped = param->unmapValue(value);
+    katana->set(addr, unmapped);
+    values[param->addrOffset + 2] = unmapped & 0x7F;
+    if (param->size == 2) {
+        values[param->addrOffset + 3] = (unmapped >> 7) & 0x7F;
+    }
 }

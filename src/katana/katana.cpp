@@ -31,12 +31,19 @@ void Katana::sendCommand(byte command, byte address[4], byte data[4], byte dataS
     Midi::SysExMessage msg = Midi::SysExMessage(sysexData, 10 + size);
     midi->send(msg);
 }
-void Katana::set(byte address[4], byte data)
-{
-    byte rawData[1] = {data};
-    sendCommand(0x12, address, rawData, 1);
-}
 
+void Katana::set(byte address[4], uint16_t data)
+{
+    byte data1 = data & 0x7F;
+    byte data2 = (data >> 7) & 0x7F;
+    if (data2 == 0) {
+        byte rawData[1] = {data1};
+        sendCommand(0x12, address, rawData, 1);
+    } else {
+        byte rawData[2] = {data1, data2};
+        sendCommand(0x12, address, rawData, 2);
+    }
+}
 void Katana::query(byte address[4], byte size) { //, Callback callback) {
     byte rawData[4] = {0x00, 0x00, 0x00, size};
     sendCommand(0x11, address, rawData, 4);
