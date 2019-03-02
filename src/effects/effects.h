@@ -16,7 +16,7 @@
 #define REVERB_PARAMS_COUNT 8
 #define REVERB_EFFECTS_COUNT 7
 #define SLOTS_COUNT 8
-#define EFFECTS_COUNT 1
+#define EFFECTS_COUNT 2
 
 class Effects {
 private:
@@ -103,8 +103,12 @@ private:
     EffectParam* chorusParams[1] = {
         new EffectParam("Rate", 0, 100, 0xF8, 1),
     };
+    EffectParam* tremoloParams[1] = {
+        new EffectParam("Shape", 0, 100, 0xC5, 1)
+    };
     MultiEffectType* effects[EFFECTS_COUNT] = {
-        new MultiEffectType("Chorus", 0x1D, chorusParams, 1)
+        new MultiEffectType("Chorus", 0x1D, chorusParams, 1),
+        new MultiEffectType("Tremolo", 0x15, tremoloParams, 1)
     };
 
     byte modBaseAddr[4] = {0x60, 0x00, 0x01, 0x40};
