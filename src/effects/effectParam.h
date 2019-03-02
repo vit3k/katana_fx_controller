@@ -9,9 +9,9 @@ public:
     int32_t minValue = 0;
     int32_t maxValue= 100;
     int32_t val = 0;
-    byte addrOffset;
+    uint16_t addrOffset;
     byte size;
-    EffectParam(String name, int32_t minValue, int32_t maxValue, byte addrOffset, byte size)
+    EffectParam(String name, int32_t minValue, int32_t maxValue, uint16_t addrOffset, byte size)
         : name(name), minValue(minValue), maxValue(maxValue), addrOffset(addrOffset), size(size) {}
 
     int mapValue(int val) {

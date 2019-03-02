@@ -15,7 +15,7 @@ void EffectParam::update(byte* values, int32_t value) {
     if (value > maxValue) {
         value = maxValue;
     }
-    byte addr[4];
+    //byte addr[4];
     //addOffset(baseAddr, param->addrOffset + 2, addr);
     auto unmapped = unmapValue(value);
     //katana->set(addr, unmapped);

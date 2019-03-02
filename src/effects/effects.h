@@ -7,14 +7,16 @@
 #include "singleEffectSlot.h"
 #include "ampSlot.h"
 #include "noiseGateSlot.h"
+#include "multiEffectSlot.h"
 
 #define BOOSTER_EFFECTS_COUNT 20
 #define BOOSTER_PARAMS_COUNT 5
 #define DELAY_PARAMS_COUNT 7
 #define DELAY_EFFECTS_COUNT 6
 #define REVERB_PARAMS_COUNT 8
-#define REVERB_EFFECTS_COUNT 5
-#define SLOTS_COUNT 6
+#define REVERB_EFFECTS_COUNT 7
+#define SLOTS_COUNT 8
+#define EFFECTS_COUNT 1
 
 class Effects {
 private:
@@ -90,18 +92,31 @@ private:
     };
     EffectType* reverbEffectTypes[REVERB_EFFECTS_COUNT] =
     {
+        new EffectType("Ambience", 0x00),
         new EffectType("Room", 0x01),
-        new EffectType("Hall", 0x03),
+        new EffectType("Hall 1", 0x02),
+        new EffectType("Hall 2", 0x03),
         new EffectType("Plate", 0x04),
         new EffectType("Spring", 0x05),
         new EffectType("Modulate", 0x06),
     };
+    EffectParam* chorusParams[1] = {
+        new EffectParam("Rate", 0, 100, 0xF8, 1),
+    };
+    MultiEffectType* effects[EFFECTS_COUNT] = {
+        new MultiEffectType("Chorus", 0x1D, chorusParams, 1)
+    };
+
+    byte modBaseAddr[4] = {0x60, 0x00, 0x01, 0x40};
+    byte fxBaseAddr[4] = {0x60, 0x00, 0x03, 0x4C};
 public:
     EffectSlot* slots[SLOTS_COUNT] = {
         new NoiseGateSlot(),
         new SingleEffectSlot("Booster", 0x0F, boosterBaseAddr, boosterEffectTypes, BOOSTER_EFFECTS_COUNT, boosterParams, BOOSTER_PARAMS_COUNT),
+        new MultiEffectSlot("Mod", 0x00, modBaseAddr, effects, EFFECTS_COUNT),
         new AmpSlot(),
         new SingleEffectSlot("Delay", 0x00, delayBaseAddr, delayEffectTypes, DELAY_EFFECTS_COUNT, delayParams, DELAY_PARAMS_COUNT),
+        new MultiEffectSlot("FX", 0x00, fxBaseAddr, effects, EFFECTS_COUNT),
         new SingleEffectSlot("Delay 2", 0x00, delay2BaseAddr, delayEffectTypes, DELAY_EFFECTS_COUNT, delayParams, DELAY_PARAMS_COUNT),
         new SingleEffectSlot("Reverb", 0x00, reverbBaseAddr, reverbEffectTypes, REVERB_EFFECTS_COUNT, reverbParams, REVERB_PARAMS_COUNT),
     };
