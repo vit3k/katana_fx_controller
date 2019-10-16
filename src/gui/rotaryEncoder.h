@@ -14,36 +14,10 @@ private:
     int32_t lastTpsValue;
     unsigned long lastTpsTime;
 public:
-    int32_t delta(byte multiplier) {
-        auto read = encoder.read();
-        auto d = ceil((read - lastRead)/4);
-        int32_t step = 0;
-        if (d != 0)
-        {
-            auto speed = constrain(tps, MIN_TPS, MAX_TPS) - MIN_TPS;
-            auto sign = d > 0 ? 1 : -1;
-            step = sign * (1 + abs(d) * multiplier * speed * speed * speed / ((MAX_TPS - MIN_TPS) * (MAX_TPS - MIN_TPS) * (MAX_TPS - MIN_TPS)));
-            lastRead = read;
-        }
-        return step;
-    }
-    int32_t delta() {
-        return delta(1);
-    }
-    int32_t value() {
-        return val;
-    }
-
-    void update() {
-        auto current = millis();
-        val = encoder.read();
-        auto dt = current - lastTpsTime;
-        if (dt >= 250) {
-            tps = abs((1000.f / dt) * ((val - lastTpsValue)/2));
-            lastTpsValue = val;
-            lastTpsTime = current;
-        }
-    }
+    int32_t delta(byte multiplier);
+    int32_t delta();
+    int32_t value();
+    void update();
 
     RotaryEncoder(uint8_t pin1, uint8_t pin2): encoder(Encoder(pin1, pin2)),
         lastRead(0), tps(0), lastTpsValue(0), lastTpsTime(millis()) {}
