@@ -1,7 +1,8 @@
 #include "rotaryEncoder.h"
 
 int32_t RotaryEncoder::delta(byte multiplier) {
-    auto read = encoder.read();
+    //auto read = encoder.read();
+    auto read = encoder.getCount();
     auto d = ceil((read - lastRead)/4);
     int32_t step = 0;
     if (d != 0)
@@ -22,7 +23,8 @@ int32_t RotaryEncoder::value() {
 
 void RotaryEncoder::update() {
     auto current = millis();
-    val = encoder.read();
+    //val = encoder.read();
+    val = encoder.getCount();
     auto dt = current - lastTpsTime;
     if (dt >= 250) {
         tps = abs((1000.f / dt) * ((val - lastTpsValue)/2));

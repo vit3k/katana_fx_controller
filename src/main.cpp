@@ -27,16 +27,13 @@ EffectListPanel effectListPanel(&sw1, &enc1);
 SlotListPanel slotListPanel(&sw1, &enc1, (EffectSlot**)effects.slots, SLOTS_COUNT, &sw2);
 
 Panels panels(&effects, &effectPanel, &effectListPanel, &slotListPanel, &homeSwitch);
-void update() {
-    //enc1.update();
-}
-IntervalTimer timer;
+
 void setup()
 {
     panels.setup();
 
     Serial.begin(115200);
-    //midi.setup();
+    midi.setup();
 
     pinMode(23, INPUT_PULLUP);
     homeSwitch.attach(23);
@@ -59,11 +56,10 @@ void setup()
     Serial.println(F("Initialized. Waiting..."));
     //delay(5000);
     //timer.begin(update, 100);
-    //katana.init();
+    katana.init();
     Serial.println(F("Katana connected"));
 }
 
-//void printf()
 void loop()
 {
     homeSwitch.update();
@@ -74,9 +70,7 @@ void loop()
     enc2.update();
     enc3.update();
 
-    //attachInterrupt(5, update, FALLING);
-    //enc1.delta();
-    //katana.update();
+    katana.update();
     effects.update();
     panels.update();
 

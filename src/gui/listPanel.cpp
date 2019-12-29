@@ -14,8 +14,8 @@ void ListPanel::draw(U8G2* lcd) {
     lcd->setFont(u8g2_font_5x7_tf);
     String* names = list();
     byte namesCount = listCount();
-
-    byte last = min(firstVisible + 6, namesCount);
+    byte first = firstVisible + 6;
+    byte last = min(first, namesCount);
     for(byte i = firstVisible; i < last; i++) {
         if (i != current) {
             lcd->setDrawColor(1);

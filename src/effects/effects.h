@@ -128,7 +128,7 @@ public:
         new SingleEffectSlot("Delay 2", 0x00, delay2BaseAddr, delayEffectTypes, DELAY_EFFECTS_COUNT, delayParams, DELAY_PARAMS_COUNT),
         new SingleEffectSlot("Reverb", 0x00, reverbBaseAddr, reverbEffectTypes, REVERB_EFFECTS_COUNT, reverbParams, REVERB_PARAMS_COUNT),
     };
-
+// eq 01 30
     Effects(Katana* katana) {
         for(byte i = 0; i < SLOTS_COUNT; i++) {
             slots[i]->setKatana(katana);

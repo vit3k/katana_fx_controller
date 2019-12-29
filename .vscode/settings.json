@@ -1,10 +1,22 @@
 {
     "terminal.integrated.env.osx": {
-        "PATH": "/Users/witek/.platformio/penv/bin:/Users/witek/.platformio/penv:/Users/witek/.cargo/bin:/Users/witek/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/witek/Library/Android/sdk/emulator:/Users/witek/Library/Android/sdk/platform-tools:/usr/local/go/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands",
+        "PATH": "/Users/witek/.platformio/penv/bin:/Users/witek/.platformio/penv:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/witek/Library/Android/sdk/emulator:/Users/witek/Library/Android/sdk/platform-tools:/usr/local/go/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/witek/flutter/bin",
         "PLATFORMIO_CALLER": "vscode"
     },
     "terminal.integrated.env.windows": {
         "PATH": "C:\\Users\\pawit\\.platformio\\penv\\Scripts;C:\\Users\\pawit\\.platformio\\penv;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;C:\\Program Files (x86)\\QuickTime\\QTSystem\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files\\dotnet\\;C:\\Program Files (x86)\\Windows Kits\\8.1\\Windows Performance Toolkit\\;C:\\Program Files\\PuTTY\\;C:\\Program Files\\LLVM\\bin;C:\\Program Files\\Git\\cmd;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Java\\jdk1.8.0_152\\bin;;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files (x86)\\Microsoft VS Code\\bin;C:\\Users\\pawit\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Python27;C:\\Program Files (x86)\\Windows Kits\\8.1\\bin\\x64;C:\\Users\\pawit\\.babun;C:\\Users\\pawit\\AppData\\Roaming\\npm;C:\\Users\\pawit\\AppData\\Local\\Yarn\\bin;D:\\android_sdk\\platform-tools;C:\\Users\\pawit\\AppData\\Local\\Microsoft\\WindowsApps;;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;C:\\Program Files (x86)\\QuickTime\\QTSystem\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files\\dotnet\\;C:\\Program Files (x86)\\Windows Kits\\8.1\\Windows Performance Toolkit\\;C:\\Program Files\\PuTTY\\;C:\\Program Files\\LLVM\\bin;C:\\Program Files\\Git\\cmd;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Java\\jdk1.8.0_152\\bin;;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files (x86)\\Microsoft VS Code\\bin;C:\\Users\\pawit\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Python27;C:\\Program Files (x86)\\Windows Kits\\8.1\\bin\\x64;C:\\Users\\pawit\\.babun;C:\\Users\\pawit\\AppData\\Roaming\\npm;C:\\Users\\pawit\\AppData\\Local\\Yarn\\bin;D:\\android_sdk\\platform-tools;C:\\Users\\pawit\\AppData\\Local\\Microsoft\\WindowsApps;",
         "PLATFORMIO_CALLER": "vscode"
+    },
+    "files.associations": {
+        "*.tcc": "cpp",
+        "random": "cpp",
+        "fstream": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "streambuf": "cpp",
+        "tuple": "cpp"
     }
 }

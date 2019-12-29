@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define MAX_QUEUE_SIZE 20
+#define MAX_QUEUE_SIZE 100
 
 template<typename T>
 class Queue {
